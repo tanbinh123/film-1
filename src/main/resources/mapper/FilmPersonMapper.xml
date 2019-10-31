@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.william.film.mapper.FilmPersonMapper">
+  <resultMap id="BaseResultMap" type="com.william.film.pojo.FilmPerson">
+    <id column="Person_Id" jdbcType="INTEGER" property="personId" />
+    <result column="Person_Name" jdbcType="VARCHAR" property="personName" />
+    <result column="Person_Other_Name" jdbcType="VARCHAR" property="personOtherName" />
+    <result column="Person_Nation" jdbcType="VARCHAR" property="personNation" />
+    <result column="Person_Blood" jdbcType="VARCHAR" property="personBlood" />
+    <result column="Person_Birth" jdbcType="DATE" property="personBirth" />
+    <result column="Person_Birth_Place" jdbcType="VARCHAR" property="personBirthPlace" />
+    <result column="Person_Height" jdbcType="VARCHAR" property="personHeight" />
+    <result column="Person_Constellation" jdbcType="VARCHAR" property="personConstellation" />
+    <result column="Person_Identity" jdbcType="VARCHAR" property="personIdentity" />
+    <result column="Person_Graduate_School" jdbcType="VARCHAR" property="personGraduateSchool" />
+    <result column="Person_Gender" jdbcType="VARCHAR" property="personGender" />
+    <result column="Person_Main_Img" jdbcType="VARCHAR" property="personMainImg" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Person_Id, Person_Name, Person_Other_Name, Person_Nation, Person_Blood, Person_Birth, 
+    Person_Birth_Place, Person_Height, Person_Constellation, Person_Identity, Person_Graduate_School, 
+    Person_Gender, Person_Main_Img
+  </sql>
+  <select id="selectByExample" parameterType="com.william.film.pojo.FilmPersonExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from film_person
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from film_person
+    where Person_Id = #{personId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from film_person
+    where Person_Id = #{personId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.william.film.pojo.FilmPersonExample">
+    delete from film_person
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.william.film.pojo.FilmPerson">
+    insert into film_person (Person_Id, Person_Name, Person_Other_Name, 
+      Person_Nation, Person_Blood, Person_Birth, 
+      Person_Birth_Place, Person_Height, Person_Constellation, 
+      Person_Identity, Person_Graduate_School, Person_Gender, 
+      Person_Main_Img)
+    values (#{personId,jdbcType=INTEGER}, #{personName,jdbcType=VARCHAR}, #{personOtherName,jdbcType=VARCHAR}, 
+      #{personNation,jdbcType=VARCHAR}, #{personBlood,jdbcType=VARCHAR}, #{personBirth,jdbcType=DATE}, 
+      #{personBirthPlace,jdbcType=VARCHAR}, #{personHeight,jdbcType=VARCHAR}, #{personConstellation,jdbcType=VARCHAR}, 
+      #{personIdentity,jdbcType=VARCHAR}, #{personGraduateSchool,jdbcType=VARCHAR}, #{personGender,jdbcType=VARCHAR}, 
+      #{personMainImg,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.william.film.pojo.FilmPerson">
+    insert into film_person
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        Person_Id,
+      </if>
+      <if test="personName != null">
+        Person_Name,
+      </if>
+      <if test="personOtherName != null">
+        Person_Other_Name,
+      </if>
+      <if test="personNation != null">
+        Person_Nation,
+      </if>
+      <if test="personBlood != null">
+        Person_Blood,
+      </if>
+      <if test="personBirth != null">
+        Person_Birth,
+      </if>
+      <if test="personBirthPlace != null">
+        Person_Birth_Place,
+      </if>
+      <if test="personHeight != null">
+        Person_Height,
+      </if>
+      <if test="personConstellation != null">
+        Person_Constellation,
+      </if>
+      <if test="personIdentity != null">
+        Person_Identity,
+      </if>
+      <if test="personGraduateSchool != null">
+        Person_Graduate_School,
+      </if>
+      <if test="personGender != null">
+        Person_Gender,
+      </if>
+      <if test="personMainImg != null">
+        Person_Main_Img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        #{personId,jdbcType=INTEGER},
+      </if>
+      <if test="personName != null">
+        #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="personOtherName != null">
+        #{personOtherName,jdbcType=VARCHAR},
+      </if>
+      <if test="personNation != null">
+        #{personNation,jdbcType=VARCHAR},
+      </if>
+      <if test="personBlood != null">
+        #{personBlood,jdbcType=VARCHAR},
+      </if>
+      <if test="personBirth != null">
+        #{personBirth,jdbcType=DATE},
+      </if>
+      <if test="personBirthPlace != null">
+        #{personBirthPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="personHeight != null">
+        #{personHeight,jdbcType=VARCHAR},
+      </if>
+      <if test="personConstellation != null">
+        #{personConstellation,jdbcType=VARCHAR},
+      </if>
+      <if test="personIdentity != null">
+        #{personIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="personGraduateSchool != null">
+        #{personGraduateSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="personGender != null">
+        #{personGender,jdbcType=VARCHAR},
+      </if>
+      <if test="personMainImg != null">
+        #{personMainImg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.william.film.pojo.FilmPersonExample" resultType="java.lang.Long">
+    select count(*) from film_person
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update film_person
+    <set>
+      <if test="record.personId != null">
+        Person_Id = #{record.personId,jdbcType=INTEGER},
+      </if>
+      <if test="record.personName != null">
+        Person_Name = #{record.personName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personOtherName != null">
+        Person_Other_Name = #{record.personOtherName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personNation != null">
+        Person_Nation = #{record.personNation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personBlood != null">
+        Person_Blood = #{record.personBlood,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personBirth != null">
+        Person_Birth = #{record.personBirth,jdbcType=DATE},
+      </if>
+      <if test="record.personBirthPlace != null">
+        Person_Birth_Place = #{record.personBirthPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personHeight != null">
+        Person_Height = #{record.personHeight,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personConstellation != null">
+        Person_Constellation = #{record.personConstellation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personIdentity != null">
+        Person_Identity = #{record.personIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personGraduateSchool != null">
+        Person_Graduate_School = #{record.personGraduateSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personGender != null">
+        Person_Gender = #{record.personGender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personMainImg != null">
+        Person_Main_Img = #{record.personMainImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update film_person
+    set Person_Id = #{record.personId,jdbcType=INTEGER},
+      Person_Name = #{record.personName,jdbcType=VARCHAR},
+      Person_Other_Name = #{record.personOtherName,jdbcType=VARCHAR},
+      Person_Nation = #{record.personNation,jdbcType=VARCHAR},
+      Person_Blood = #{record.personBlood,jdbcType=VARCHAR},
+      Person_Birth = #{record.personBirth,jdbcType=DATE},
+      Person_Birth_Place = #{record.personBirthPlace,jdbcType=VARCHAR},
+      Person_Height = #{record.personHeight,jdbcType=VARCHAR},
+      Person_Constellation = #{record.personConstellation,jdbcType=VARCHAR},
+      Person_Identity = #{record.personIdentity,jdbcType=VARCHAR},
+      Person_Graduate_School = #{record.personGraduateSchool,jdbcType=VARCHAR},
+      Person_Gender = #{record.personGender,jdbcType=VARCHAR},
+      Person_Main_Img = #{record.personMainImg,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.william.film.pojo.FilmPerson">
+    update film_person
+    <set>
+      <if test="personName != null">
+        Person_Name = #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="personOtherName != null">
+        Person_Other_Name = #{personOtherName,jdbcType=VARCHAR},
+      </if>
+      <if test="personNation != null">
+        Person_Nation = #{personNation,jdbcType=VARCHAR},
+      </if>
+      <if test="personBlood != null">
+        Person_Blood = #{personBlood,jdbcType=VARCHAR},
+      </if>
+      <if test="personBirth != null">
+        Person_Birth = #{personBirth,jdbcType=DATE},
+      </if>
+      <if test="personBirthPlace != null">
+        Person_Birth_Place = #{personBirthPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="personHeight != null">
+        Person_Height = #{personHeight,jdbcType=VARCHAR},
+      </if>
+      <if test="personConstellation != null">
+        Person_Constellation = #{personConstellation,jdbcType=VARCHAR},
+      </if>
+      <if test="personIdentity != null">
+        Person_Identity = #{personIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="personGraduateSchool != null">
+        Person_Graduate_School = #{personGraduateSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="personGender != null">
+        Person_Gender = #{personGender,jdbcType=VARCHAR},
+      </if>
+      <if test="personMainImg != null">
+        Person_Main_Img = #{personMainImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Person_Id = #{personId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.william.film.pojo.FilmPerson">
+    update film_person
+    set Person_Name = #{personName,jdbcType=VARCHAR},
+      Person_Other_Name = #{personOtherName,jdbcType=VARCHAR},
+      Person_Nation = #{personNation,jdbcType=VARCHAR},
+      Person_Blood = #{personBlood,jdbcType=VARCHAR},
+      Person_Birth = #{personBirth,jdbcType=DATE},
+      Person_Birth_Place = #{personBirthPlace,jdbcType=VARCHAR},
+      Person_Height = #{personHeight,jdbcType=VARCHAR},
+      Person_Constellation = #{personConstellation,jdbcType=VARCHAR},
+      Person_Identity = #{personIdentity,jdbcType=VARCHAR},
+      Person_Graduate_School = #{personGraduateSchool,jdbcType=VARCHAR},
+      Person_Gender = #{personGender,jdbcType=VARCHAR},
+      Person_Main_Img = #{personMainImg,jdbcType=VARCHAR}
+    where Person_Id = #{personId,jdbcType=INTEGER}
+  </update>
+</mapper>

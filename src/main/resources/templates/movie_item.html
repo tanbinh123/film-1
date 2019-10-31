@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${movie.getMovieName()}"></title>
+    <link rel="stylesheet" href="css/head.css">
+    <link rel="stylesheet" href="css/movie_item/movie_item.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <script type="text/javascript">
+        // $(function () { $("appdownload").hover(
+        //     function () {
+        //         document.getElementById('iphone-icon').removeAttribute('display');
+        //     }
+        //     )
+        // })
+        function app_download_in() {
+            document.getElementById('download-icon').style.display='inline-block';
+            document.getElementById('app-download').style.borderLeft="1 px solid transparent";
+            document.getElementById('app-download').style.borderRight="1 px solid transparent";
+        }
+        function app_download_out() {
+            document.getElementById('download-icon').style.display='none';
+        }
+
+    </script>
+</head>
+<body>
+<div class="header">
+    <div class="header-inner">
+        <!--图片的background-image没写,需要后期插入-->
+        <a href="index" class="logo"></a>
+        <!--选择城市-->
+        <div class="city-container"></div>
+        <!--各页面-->
+        <div class="nav">
+            <ul class="nav-bar">
+                <li><a href="/film/index" class="navbar-brand">首页</a></li>
+                <li><a href="#" class="navbar-brand">电影</a></li>
+                <li><a href="#" class="navbar-brand">影院</a></li>
+                <li><a href="#" class="navbar-brand">榜单</a></li>
+                <li><a href="#" class="navbar-brand">热点</a></li>
+                <li><a href="#" class="navbar-brand">商城</a></li>
+
+            </ul>
+        </div>
+
+
+        <!--app下载(下拉框)-->
+        <div class="app-download" id="app-download" onmouseover="app_download_in()" onmouseout="app_download_out()">
+            <a href="#" target="_blank">
+                <span class="iphone-icon" id="iphone-icon" ></span>
+                <span class="apptext">APP下载</span>
+                <span class="caret"></span>
+                <div class="download-icon" id="download-icon">
+                    <p class="down-title">扫码下载APP</p>
+                    <p class="down-content">选座更优惠</p>
+                </div>
+            </a>
+        </div>
+        <!--搜索框-->
+        <form action="" class="search-form">
+            <input type="text" placeholder="查询电影,影院" maxlength="32" autocomplete="off" class="search" >
+            <!--input中valye=""可以去除默认提交文字-->
+            <input type="submit" class="submit" value="">
+        </form>
+        <!--用户信息-->
+        <div class="personal-detail">
+            <div class="user-avater">
+                <img src="/film/img/index/user-default.png">
+                <span class="caret"></span>
+                <ul class="user-menu">
+                    <li>
+                        <a href="#">登录</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="banner">
+    <div class="wrapper clearfix">
+        <div class="movieInfo-left">
+            <div class="avater-shadow">
+                <!--th:src="@{'movieSrc/'+${item.getMovieMainImg()}+'.jpg'}"-->
+                <img class="avater" th:src="@{'movieSrc/'+${movie.getMovieMainImg()}+'.jpg'}">
+                <div class="movie-ver"></div>
+            </div>
+        </div>
+        <div class="movieInfo_right clearfix">
+            <div class="movie-brief-container">
+                <h3 class="name" th:text="${movie.getMovieName()}"></h3>
+                <div class="ename ellipsis" th:text="${movie.getMovieOtherName()}"></div>
+                <ul>
+                    <li class="ellipsis"th:text="${movie.getMovieType()}"></li>
+                    <li class="ellipsis"th:text="'中国大陆/'+${movie.getMovieDuration()}+'分钟'"></li>
+                    <li class="ellipsis" th:text="${movie.getMovieRelease()}"></li>
+                    <li class="ellipsis" th:text="${releaseDate}"></li>
+                </ul>
+            </div>
+            <div class="action-buyBtn">
+                <div class="action clearfix">
+                    <a class="wish">
+                    <div>
+                        <i class="icon wish-icon"></i>
+                        <span class="wish-click">想看</span>
+                    </div>
+                    </a>
+                    <a class="score-btn">
+                        <div>
+                            <i class="icon score-btn-icon"></i>
+                            <span class="score-btn-msg">评分</span>
+                        </div>
+                    </a>
+                </div>
+                <!--使用a标签传参到下一页面-->
+                <a th:href="@{/theater(movieId=${movie.getMovieId()})}" id="MId" class="btn buy">特惠购票</a>
+            </div>
+            <div class="movie-stats-container">
+                <div class="movie-index">
+                    <p class="movie-index-title">用户评分</p>
+                    <div class="movie-index-content score normal-score">
+                        <span class="index-left no-info">暂无</span>
+                    </div>
+                </div>
+                <div class="movie-index">
+                    <p class="movie-index-title">累计票房</p>
+                    <div class="movie-index-content box">
+                        <span class="malgun-gothic"th:text="${movie.getMovieBox()/10000}"></span>
+                        <span class="unit">万</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="main-content-container clearfix">
+        <div class="main-content">
+            <div class="tab-container">
+                <div class="tab-title-container clearfix">
+                    <div class="tab-title active">介绍</div>
+                    <div class="tab-title">演职人员</div>
+                    <div class="tab-title tab-disabled">奖项</div>
+                    <div class="tab-title">图集</div>
+                </div>
+                <div class="tab-content-container">
+                    <div class="tab-desc tab-content active">
+                        <div class="module">
+                            <div class="mod-title">
+                                <h3>剧情介绍</h3>
+                            </div>
+                            <div class="mod-content">
+                                <span class="dra" th:text="${movie.getMovieDescription()}"> </span>
+                            </div>
+                        </div>
+                        <div class="module">
+                            <div class="mod-title">
+                                <h3>演职人员</h3>
+                                <a class="more">全部</a>
+                            </div>
+                            <div class="mod-content">
+                                <div class="celebrity-container clearfix">
+                                    <!--这个用来放导演-->
+                                    <div class="celebrity-group">
+                                        <div class="celebrity-type">导演</div>
+                                        <ul class="celebrity-list clearfix">
+                                            <li class="celebrity">
+                                                <a href="#" class="portrait">
+                                                    <img class="default-img" src="">
+                                                </a>
+                                                <div class="info">
+                                                    <a href="#" class="name">曾国祥</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!--这个用来放演员-->
+                                    <div class="celebrity-group">
+                                        <div class="celebrity-type">演员</div>
+                                        <ul class="celebrity-list clearfix">
+                                            <li class="celebrity actor">
+                                                <a href="#" class="portrait">
+                                                    <img class="default-img" src="">
+                                                </a>
+                                                <div class="info">
+                                                    <a href="#"class="name">周冬雨</a>
+                                                </div>
+                                            </li>
+                                            <!--下面的使用th遍历的时候删掉-->
+                                            <li class="celebrity actor">
+                                                <a href="#" class="portrait">
+                                                    <img class="default-img" src="">
+                                                </a>
+                                                <div class="info">
+                                                    <a href="#"class="name">易烊千玺</a>
+                                                </div>
+                                            </li>
+                                            <li class="celebrity actor">
+                                                <a href="#" class="portrait">
+                                                    <img class="default-img" src="">
+                                                </a>
+                                                <div class="info">
+                                                    <a href="#"class="name">伊昉</a>
+                                                </div>
+                                            </li>
+                                            <li class="celebrity actor">
+                                                <a href="#" class="portrait">
+                                                    <img class="default-img" src="">
+                                                </a>
+                                                <div class="info">
+                                                    <a href="#"class="name">黄觉</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--图集-->
+                        <div class="module">
+                            <div class="mod-title">
+                                <h3>图集</h3>
+                                <a class="more">全部</a>
+                            </div>
+                            <div class="mod-content">
+                                <div class="album clearfix">
+                                    <div class="img1">
+                                        <img class="default-img" src="">
+                                    </div>
+                                    <div class="img2">
+                                        <img class="default-img" src="">
+                                    </div>
+                                    <div class="img3">
+                                        <img class="default-img" src="">
+                                    </div>
+                                    <div class="img4">
+                                        <img class="default-img" src="">
+                                    </div>
+                                    <div class="img5">
+                                        <img class="default-img" src="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="module"></div>
+                    </div>
+                    <!--click显示 active显示-->
+                    <div class="tab-celebrity tab-content"></div>
+                    <div class="tab-award tab-content"></div>
+                    <div class="tab-img tab-content"></div>
+                </div>
+            </div>
+        </div>
+        <div class="related">
+            <div class="module">
+                <div class="mod-title">
+                    <h3>相关资讯</h3>
+                </div>
+                <div class="mod-content">
+                    <dl class="news-list">
+                        <!--一则资讯-->
+                        <dd class="news-item">
+                            <a href="#">
+                                <div class="news-img">
+                                        <img class="news-img-default" src="">
+                                </div>
+                            </a>
+                            <div class="news-main">
+                                <div class="news-title">
+                                    <a href="#">周冬雨为《少年的你》剧情保密带假发半年，敬业精神惹人怜</a>
+                                </div>
+                                <div class="news-info">
+                                    <span class="news-source">狗眼资讯</span>
+                                    <span>
+                                        <i class="news-icon news-icon-views"></i>5874
+                                    </span>
+                                    <span>
+                                         <i class="news-icon news-icon-comments"></i>4
+                                    </span>
+                                </div>
+                            </div>
+                        </dd>
+                        <dd class="news-item">
+                            <a href="#">
+                                <div class="news-img">
+                                    <img class="news-img-default" src="">
+                                </div>
+                            </a>
+                            <div class="news-main">
+                                <div class="news-title">
+                                    <a href="#">《少年的你》反派魏莱大揭秘，腹黑少女其实纯良无公害</a>
+                                </div>
+                                <div class="news-info">
+                                    <span class="news-source">狗眼资讯</span>
+                                    <span>
+                                        <i class="news-icon news-icon-views"></i>1685
+                                    </span>
+                                    <span>
+                                         <i class="news-icon news-icon-comments"></i>2
+                                    </span>
+                                </div>
+                            </div>
+                        </dd>
+                        <dd class="news-item">
+                            <a href="#">
+                                <div class="news-img">
+                                    <img class="news-img-default" src="">
+                                </div>
+                            </a>
+                            <div class="news-main">
+                                <div class="news-title">
+                                    <a href="#">官媒点赞《少年的你》反欺凌，周冬雨易烊千玺呼吁守护少年</a>
+                                </div>
+                                <div class="news-info">
+                                    <span class="news-source">狗眼资讯</span>
+                                    <span>
+                                        <i class="news-icon news-icon-views"></i>9136
+                                    </span>
+                                    <span>
+                                         <i class="news-icon news-icon-comments"></i>8
+                                    </span>
+                                </div>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <!--相关电影推荐-->
+            <div class="module">
+                <div class="mod-title">
+                    <h3>相关电影</h3>
+                </div>
+                <div class="mod-content">
+                    <div class="related-movie">
+                        <dl class="movie-list">
+                            <dd>
+                                <div class="movie-item">
+                                    <a href="#">
+                                        <div class="movie-poster">
+                                            <img class="poster-default">
+                                        </div>
+                                    </a>
+                                    <div class="movie-ver"></div>
+                                </div>
+                                <div class="channel-detail movie-item-title">
+                                    <a href="#">狗眼电影</a>
+                                </div>
+                                <div class="channel-detail channel-detail-orange">暂无评分</div>
+
+                            </dd>
+                            <!--遍历删除以下dd-->
+                            <dd>
+                                <div class="movie-item">
+                                    <a href="#">
+                                        <div class="movie-poster">
+                                            <img class="poster-default">
+                                        </div>
+                                    </a>
+                                    <div class="movie-ver"></div>
+                                </div>
+                                <div class="channel-detail movie-item-title">
+                                    <a href="#">狗眼电影</a>
+                                </div>
+                                <div class="channel-detail channel-detail-orange">暂无评分</div>
+
+                            </dd>
+                            <dd>
+                                <div class="movie-item">
+                                    <a href="#">
+                                        <div class="movie-poster">
+                                            <img class="poster-default">
+                                        </div>
+                                    </a>
+                                    <div class="movie-ver"></div>
+                                </div>
+                                <div class="channel-detail movie-item-title">
+                                    <a href="#">狗眼电影</a>
+                                </div>
+                                <div class="channel-detail channel-detail-orange">暂无评分</div>
+
+                            </dd>
+                            <dd>
+                                <div class="movie-item">
+                                    <a href="#">
+                                        <div class="movie-poster">
+                                            <img class="poster-default">
+                                        </div>
+                                    </a>
+                                    <div class="movie-ver"></div>
+                                </div>
+                                <div class="channel-detail movie-item-title">
+                                    <a href="#">狗眼电影</a>
+                                </div>
+                                <div class="channel-detail channel-detail-orange">暂无评分</div>
+
+                            </dd>
+                            <dd>
+                                <div class="movie-item">
+                                    <a href="#">
+                                        <div class="movie-poster">
+                                            <img class="poster-default">
+                                        </div>
+                                    </a>
+                                    <div class="movie-ver"></div>
+                                </div>
+                                <div class="channel-detail movie-item-title">
+                                    <a href="#">狗眼电影</a>
+                                </div>
+                                <div class="channel-detail channel-detail-orange">暂无评分</div>
+
+                            </dd>
+                            <dd>
+                                <div class="movie-item">
+                                    <a href="#">
+                                        <div class="movie-poster">
+                                            <img class="poster-default">
+                                        </div>
+                                    </a>
+                                    <div class="movie-ver"></div>
+                                </div>
+                                <div class="channel-detail movie-item-title">
+                                    <a href="#">狗眼电影</a>
+                                </div>
+                                <div class="channel-detail channel-detail-orange">暂无评分</div>
+
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <span class="contect-us">Copyright © 2019.  All rights reserved By William Wang. </span>
+</div>
+</body>
+</html>

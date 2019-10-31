@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.william.film.mapper.CustomerMapper">
+  <resultMap id="BaseResultMap" type="com.william.film.pojo.Customer">
+    <id column="Customer_Id" jdbcType="INTEGER" property="customerId" />
+    <result column="Customer_Name" jdbcType="VARCHAR" property="customerName" />
+    <result column="Customer_Email" jdbcType="VARCHAR" property="customerEmail" />
+    <result column="Customer_Phone" jdbcType="VARCHAR" property="customerPhone" />
+    <result column="Customer_Pwd" jdbcType="VARCHAR" property="customerPwd" />
+    <result column="Customer_Creat_Time" jdbcType="TIMESTAMP" property="customerCreatTime" />
+    <result column="Customer_Level" jdbcType="INTEGER" property="customerLevel" />
+    <result column="Customer_Portrait" jdbcType="VARCHAR" property="customerPortrait" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Customer_Id, Customer_Name, Customer_Email, Customer_Phone, Customer_Pwd, Customer_Creat_Time, 
+    Customer_Level, Customer_Portrait
+  </sql>
+  <select id="selectByExample" parameterType="com.william.film.pojo.CustomerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer
+    where Customer_Id = #{customerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where Customer_Id = #{customerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.william.film.pojo.CustomerExample">
+    delete from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.william.film.pojo.Customer">
+    insert into customer (Customer_Id, Customer_Name, Customer_Email, 
+      Customer_Phone, Customer_Pwd, Customer_Creat_Time, 
+      Customer_Level, Customer_Portrait)
+    values (#{customerId,jdbcType=INTEGER}, #{customerName,jdbcType=VARCHAR}, #{customerEmail,jdbcType=VARCHAR}, 
+      #{customerPhone,jdbcType=VARCHAR}, #{customerPwd,jdbcType=VARCHAR}, #{customerCreatTime,jdbcType=TIMESTAMP}, 
+      #{customerLevel,jdbcType=INTEGER}, #{customerPortrait,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.william.film.pojo.Customer">
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customerId != null">
+        Customer_Id,
+      </if>
+      <if test="customerName != null">
+        Customer_Name,
+      </if>
+      <if test="customerEmail != null">
+        Customer_Email,
+      </if>
+      <if test="customerPhone != null">
+        Customer_Phone,
+      </if>
+      <if test="customerPwd != null">
+        Customer_Pwd,
+      </if>
+      <if test="customerCreatTime != null">
+        Customer_Creat_Time,
+      </if>
+      <if test="customerLevel != null">
+        Customer_Level,
+      </if>
+      <if test="customerPortrait != null">
+        Customer_Portrait,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customerId != null">
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerEmail != null">
+        #{customerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPhone != null">
+        #{customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPwd != null">
+        #{customerPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCreatTime != null">
+        #{customerCreatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerLevel != null">
+        #{customerLevel,jdbcType=INTEGER},
+      </if>
+      <if test="customerPortrait != null">
+        #{customerPortrait,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.william.film.pojo.CustomerExample" resultType="java.lang.Long">
+    select count(*) from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update customer
+    <set>
+      <if test="record.customerId != null">
+        Customer_Id = #{record.customerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerName != null">
+        Customer_Name = #{record.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerEmail != null">
+        Customer_Email = #{record.customerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerPhone != null">
+        Customer_Phone = #{record.customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerPwd != null">
+        Customer_Pwd = #{record.customerPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerCreatTime != null">
+        Customer_Creat_Time = #{record.customerCreatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.customerLevel != null">
+        Customer_Level = #{record.customerLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerPortrait != null">
+        Customer_Portrait = #{record.customerPortrait,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update customer
+    set Customer_Id = #{record.customerId,jdbcType=INTEGER},
+      Customer_Name = #{record.customerName,jdbcType=VARCHAR},
+      Customer_Email = #{record.customerEmail,jdbcType=VARCHAR},
+      Customer_Phone = #{record.customerPhone,jdbcType=VARCHAR},
+      Customer_Pwd = #{record.customerPwd,jdbcType=VARCHAR},
+      Customer_Creat_Time = #{record.customerCreatTime,jdbcType=TIMESTAMP},
+      Customer_Level = #{record.customerLevel,jdbcType=INTEGER},
+      Customer_Portrait = #{record.customerPortrait,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.william.film.pojo.Customer">
+    update customer
+    <set>
+      <if test="customerName != null">
+        Customer_Name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerEmail != null">
+        Customer_Email = #{customerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPhone != null">
+        Customer_Phone = #{customerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPwd != null">
+        Customer_Pwd = #{customerPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCreatTime != null">
+        Customer_Creat_Time = #{customerCreatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerLevel != null">
+        Customer_Level = #{customerLevel,jdbcType=INTEGER},
+      </if>
+      <if test="customerPortrait != null">
+        Customer_Portrait = #{customerPortrait,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Customer_Id = #{customerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.william.film.pojo.Customer">
+    update customer
+    set Customer_Name = #{customerName,jdbcType=VARCHAR},
+      Customer_Email = #{customerEmail,jdbcType=VARCHAR},
+      Customer_Phone = #{customerPhone,jdbcType=VARCHAR},
+      Customer_Pwd = #{customerPwd,jdbcType=VARCHAR},
+      Customer_Creat_Time = #{customerCreatTime,jdbcType=TIMESTAMP},
+      Customer_Level = #{customerLevel,jdbcType=INTEGER},
+      Customer_Portrait = #{customerPortrait,jdbcType=VARCHAR}
+    where Customer_Id = #{customerId,jdbcType=INTEGER}
+  </update>
+</mapper>

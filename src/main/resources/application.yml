@@ -1,0 +1,21 @@
+##yml 文件  与  properties 均为配置文件    yml文件的值   一定要有个空格   注意层级关系
+#server:
+#  port: 8088
+#  tomcat:
+#    uri-encoding: utf-8
+#  servlet:
+#    context-path: /film
+#
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3307/film?characterEncoding=utf-8
+#    username: root
+#    password: 123
+#  thymeleaf:
+#    prefix: classpath:/templates/
+#    suffix: .html
+#    cache: false
+#mybatis:
+#  type-aliases-package: com.neu.film.pojo
+#  mapper-locations: classpath:/mapper/*.xml

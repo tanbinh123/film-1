@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.william.film.mapper.MovieMapper">
+  <resultMap id="BaseResultMap" type="com.william.film.pojo.Movie">
+    <id column="Movie_Id" jdbcType="INTEGER" property="movieId" />
+    <result column="Movie_Name" jdbcType="VARCHAR" property="movieName" />
+    <result column="Movie_Other_Name" jdbcType="VARCHAR" property="movieOtherName" />
+    <result column="Movie_Drictor" jdbcType="VARCHAR" property="movieDrictor" />
+    <result column="Movie_Duration" jdbcType="INTEGER" property="movieDuration" />
+    <result column="Movie_Description" jdbcType="VARCHAR" property="movieDescription" />
+    <result column="Movie_Main_Img" jdbcType="VARCHAR" property="movieMainImg" />
+    <result column="Movie_Type" jdbcType="VARCHAR" property="movieType" />
+    <result column="Movie_Release" jdbcType="DATE" property="movieRelease" />
+    <result column="Movie_End" jdbcType="DATE" property="movieEnd" />
+    <result column="Movie_Box" jdbcType="INTEGER" property="movieBox" />
+    <result column="Movie_Broadcast_Type" jdbcType="VARCHAR" property="movieBroadcastType" />
+    <result column="Movie_Except" jdbcType="INTEGER" property="movieExcept" />
+    <result column="Movie_Average_Stars" jdbcType="INTEGER" property="movieAverageStars" />
+  </resultMap>
+  <!--#{}在预处理中,会把参数部分用一个占位符 ? 代替-->
+  <!--${}则是简单的字符串替换-->
+  <select id="selectEightMovie" resultMap="BaseResultMap">
+    -- 需要修改,这里仅仅是根据id查出前8个电影,接下来应该拼接加入时间查出一段时间内正在上映的电影
+    select * from movie  order by Movie_Id limit 8
+  </select>
+  <select id="selectTenMovieByBox" resultMap="BaseResultMap">
+    select *from movie order by Movie_Box desc limit 10;
+  </select>
+  <select id="selectUpComingMoviex8" resultMap="BaseResultMap">
+    select * from movie where Movie_Release>#{date,jdbcType=DATE} order by Movie_Release asc limit 8;
+  </select>
+  <select id="selectByExceptx10" resultMap="BaseResultMap">
+    select *from movie where Movie_Release>#{date,jdbcType=DATE} order by Movie_Except desc limit 10;
+  </select>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Movie_Id, Movie_Name, Movie_Other_Name, Movie_Drictor, Movie_Duration, Movie_Description,
+    Movie_Main_Img, Movie_Type, Movie_Release, Movie_End, Movie_Box, Movie_Broadcast_Type,
+    Movie_Except, Movie_Average_Stars
+  </sql>
+  <select id="selectByExample" parameterType="com.william.film.pojo.MovieExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from movie
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from movie
+    where Movie_Id = #{movieId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from movie
+    where Movie_Id = #{movieId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.william.film.pojo.MovieExample">
+    delete from movie
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.william.film.pojo.Movie">
+    insert into movie (Movie_Id, Movie_Name, Movie_Other_Name,
+    Movie_Drictor, Movie_Duration, Movie_Description,
+    Movie_Main_Img, Movie_Type, Movie_Release,
+    Movie_End, Movie_Box, Movie_Broadcast_Type,
+    Movie_Except, Movie_Average_Stars)
+    values (#{movieId,jdbcType=INTEGER}, #{movieName,jdbcType=VARCHAR}, #{movieOtherName,jdbcType=VARCHAR},
+    #{movieDrictor,jdbcType=VARCHAR}, #{movieDuration,jdbcType=INTEGER}, #{movieDescription,jdbcType=VARCHAR},
+    #{movieMainImg,jdbcType=VARCHAR}, #{movieType,jdbcType=VARCHAR}, #{movieRelease,jdbcType=DATE},
+    #{movieEnd,jdbcType=DATE}, #{movieBox,jdbcType=INTEGER}, #{movieBroadcastType,jdbcType=VARCHAR},
+    #{movieExcept,jdbcType=INTEGER}, #{movieAverageStars,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.william.film.pojo.Movie">
+    insert into movie
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="movieId != null">
+        Movie_Id,
+      </if>
+      <if test="movieName != null">
+        Movie_Name,
+      </if>
+      <if test="movieOtherName != null">
+        Movie_Other_Name,
+      </if>
+      <if test="movieDrictor != null">
+        Movie_Drictor,
+      </if>
+      <if test="movieDuration != null">
+        Movie_Duration,
+      </if>
+      <if test="movieDescription != null">
+        Movie_Description,
+      </if>
+      <if test="movieMainImg != null">
+        Movie_Main_Img,
+      </if>
+      <if test="movieType != null">
+        Movie_Type,
+      </if>
+      <if test="movieRelease != null">
+        Movie_Release,
+      </if>
+      <if test="movieEnd != null">
+        Movie_End,
+      </if>
+      <if test="movieBox != null">
+        Movie_Box,
+      </if>
+      <if test="movieBroadcastType != null">
+        Movie_Broadcast_Type,
+      </if>
+      <if test="movieExcept != null">
+        Movie_Except,
+      </if>
+      <if test="movieAverageStars != null">
+        Movie_Average_Stars,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="movieId != null">
+        #{movieId,jdbcType=INTEGER},
+      </if>
+      <if test="movieName != null">
+        #{movieName,jdbcType=VARCHAR},
+      </if>
+      <if test="movieOtherName != null">
+        #{movieOtherName,jdbcType=VARCHAR},
+      </if>
+      <if test="movieDrictor != null">
+        #{movieDrictor,jdbcType=VARCHAR},
+      </if>
+      <if test="movieDuration != null">
+        #{movieDuration,jdbcType=INTEGER},
+      </if>
+      <if test="movieDescription != null">
+        #{movieDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="movieMainImg != null">
+        #{movieMainImg,jdbcType=VARCHAR},
+      </if>
+      <if test="movieType != null">
+        #{movieType,jdbcType=VARCHAR},
+      </if>
+      <if test="movieRelease != null">
+        #{movieRelease,jdbcType=DATE},
+      </if>
+      <if test="movieEnd != null">
+        #{movieEnd,jdbcType=DATE},
+      </if>
+      <if test="movieBox != null">
+        #{movieBox,jdbcType=INTEGER},
+      </if>
+      <if test="movieBroadcastType != null">
+        #{movieBroadcastType,jdbcType=VARCHAR},
+      </if>
+      <if test="movieExcept != null">
+        #{movieExcept,jdbcType=INTEGER},
+      </if>
+      <if test="movieAverageStars != null">
+        #{movieAverageStars,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.william.film.pojo.MovieExample" resultType="java.lang.Long">
+    select count(*) from movie
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update movie
+    <set>
+      <if test="record.movieId != null">
+        Movie_Id = #{record.movieId,jdbcType=INTEGER},
+      </if>
+      <if test="record.movieName != null">
+        Movie_Name = #{record.movieName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.movieOtherName != null">
+        Movie_Other_Name = #{record.movieOtherName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.movieDrictor != null">
+        Movie_Drictor = #{record.movieDrictor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.movieDuration != null">
+        Movie_Duration = #{record.movieDuration,jdbcType=INTEGER},
+      </if>
+      <if test="record.movieDescription != null">
+        Movie_Description = #{record.movieDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.movieMainImg != null">
+        Movie_Main_Img = #{record.movieMainImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.movieType != null">
+        Movie_Type = #{record.movieType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.movieRelease != null">
+        Movie_Release = #{record.movieRelease,jdbcType=DATE},
+      </if>
+      <if test="record.movieEnd != null">
+        Movie_End = #{record.movieEnd,jdbcType=DATE},
+      </if>
+      <if test="record.movieBox != null">
+        Movie_Box = #{record.movieBox,jdbcType=INTEGER},
+      </if>
+      <if test="record.movieBroadcastType != null">
+        Movie_Broadcast_Type = #{record.movieBroadcastType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.movieExcept != null">
+        Movie_Except = #{record.movieExcept,jdbcType=INTEGER},
+      </if>
+      <if test="record.movieAverageStars != null">
+        Movie_Average_Stars = #{record.movieAverageStars,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update movie
+    set Movie_Id = #{record.movieId,jdbcType=INTEGER},
+    Movie_Name = #{record.movieName,jdbcType=VARCHAR},
+    Movie_Other_Name = #{record.movieOtherName,jdbcType=VARCHAR},
+    Movie_Drictor = #{record.movieDrictor,jdbcType=VARCHAR},
+    Movie_Duration = #{record.movieDuration,jdbcType=INTEGER},
+    Movie_Description = #{record.movieDescription,jdbcType=VARCHAR},
+    Movie_Main_Img = #{record.movieMainImg,jdbcType=VARCHAR},
+    Movie_Type = #{record.movieType,jdbcType=VARCHAR},
+    Movie_Release = #{record.movieRelease,jdbcType=DATE},
+    Movie_End = #{record.movieEnd,jdbcType=DATE},
+    Movie_Box = #{record.movieBox,jdbcType=INTEGER},
+    Movie_Broadcast_Type = #{record.movieBroadcastType,jdbcType=VARCHAR},
+    Movie_Except = #{record.movieExcept,jdbcType=INTEGER},
+    Movie_Average_Stars = #{record.movieAverageStars,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.william.film.pojo.Movie">
+    update movie
+    <set>
+      <if test="movieName != null">
+        Movie_Name = #{movieName,jdbcType=VARCHAR},
+      </if>
+      <if test="movieOtherName != null">
+        Movie_Other_Name = #{movieOtherName,jdbcType=VARCHAR},
+      </if>
+      <if test="movieDrictor != null">
+        Movie_Drictor = #{movieDrictor,jdbcType=VARCHAR},
+      </if>
+      <if test="movieDuration != null">
+        Movie_Duration = #{movieDuration,jdbcType=INTEGER},
+      </if>
+      <if test="movieDescription != null">
+        Movie_Description = #{movieDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="movieMainImg != null">
+        Movie_Main_Img = #{movieMainImg,jdbcType=VARCHAR},
+      </if>
+      <if test="movieType != null">
+        Movie_Type = #{movieType,jdbcType=VARCHAR},
+      </if>
+      <if test="movieRelease != null">
+        Movie_Release = #{movieRelease,jdbcType=DATE},
+      </if>
+      <if test="movieEnd != null">
+        Movie_End = #{movieEnd,jdbcType=DATE},
+      </if>
+      <if test="movieBox != null">
+        Movie_Box = #{movieBox,jdbcType=INTEGER},
+      </if>
+      <if test="movieBroadcastType != null">
+        Movie_Broadcast_Type = #{movieBroadcastType,jdbcType=VARCHAR},
+      </if>
+      <if test="movieExcept != null">
+        Movie_Except = #{movieExcept,jdbcType=INTEGER},
+      </if>
+      <if test="movieAverageStars != null">
+        Movie_Average_Stars = #{movieAverageStars,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Movie_Id = #{movieId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.william.film.pojo.Movie">
+    update movie
+    set Movie_Name = #{movieName,jdbcType=VARCHAR},
+      Movie_Other_Name = #{movieOtherName,jdbcType=VARCHAR},
+      Movie_Drictor = #{movieDrictor,jdbcType=VARCHAR},
+      Movie_Duration = #{movieDuration,jdbcType=INTEGER},
+      Movie_Description = #{movieDescription,jdbcType=VARCHAR},
+      Movie_Main_Img = #{movieMainImg,jdbcType=VARCHAR},
+      Movie_Type = #{movieType,jdbcType=VARCHAR},
+      Movie_Release = #{movieRelease,jdbcType=DATE},
+      Movie_End = #{movieEnd,jdbcType=DATE},
+      Movie_Box = #{movieBox,jdbcType=INTEGER},
+      Movie_Broadcast_Type = #{movieBroadcastType,jdbcType=VARCHAR},
+      Movie_Except = #{movieExcept,jdbcType=INTEGER},
+      Movie_Average_Stars = #{movieAverageStars,jdbcType=INTEGER}
+    where Movie_Id = #{movieId,jdbcType=INTEGER}
+  </update>
+</mapper>

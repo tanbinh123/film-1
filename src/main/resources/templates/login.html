@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="'http://www.w3.org/1999/xhtml">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bootstrap Flat Registration Form Template</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/form-elements.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+
+	<!-- Favicon and touch icons -->
+	<link rel="shortcut icon" href="ico/favicon.png">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+	<script type="text/javascript">
+		function Pwdcheck(){
+            var customerName = document.getElementById("Name").value;
+            var customerPwd = document.getElementById("password").value;
+            console.log("hahahahahaha");
+            console.log(customerName);
+            console.log(customerPwd);
+            $.ajax({
+				type:'post',
+				url:'checkLogin',
+				data:'customerName='+customerName+"&customerPwd="+customerPwd,
+				success:function(data){
+				    //判断后台返回是成功还是失败
+					if(data){
+                        alert("登录成功!")
+						window.location.href='/film/index'
+					}else{
+                        alert("登录失败,账号或者密码错误!")
+					}
+				    console.log(data);
+
+
+				},
+				error:function(){
+				    console.log('通讯失败');
+                    // document.getElementById('div_password').className=' form-group has-error has-feedback';
+                    // document.getElementById('span_password').className ='glyphicon glyphicon-warning-sign form-control-feedback';
+
+				}
+			});
+		}
+	</script>
+</head>
+
+<body>
+
+<!-- Top menu -->
+<nav class="navbar navbar-inverse navbar-no-bg" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="index.html">Bootstrap Flat Registration Form Template</a>
+		</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="top-navbar-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+							<span class="li-text">
+								Put some text or
+							</span>
+					<a href="#"><strong>links</strong></a>
+					<span class="li-text">
+								here, or some icons:
+							</span>
+					<span class="li-social">
+								<a href="#"><i class="fa fa-facebook"></i></a>
+								<a href="#"><i class="fa fa-twitter"></i></a>
+								<a href="#"><i class="fa fa-envelope"></i></a>
+								<a href="#"><i class="fa fa-skype"></i></a>
+							</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<!-- Top content -->
+<div class="top-content">
+	<div class="copyrights">Collect from <a href="http://www.william.com/"  title="william">william's</a></div>
+	<div class="inner-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-7 text">
+					<h1><strong>GouYan's Film</strong> <br>Please Regist Here</h1>
+					<div class="description">
+						<p>
+							我们期望给与您最极致的观影体验<br>
+							We hope to give you the best experience
+						</p>
+					</div>
+					<div class="top-big-link">
+						<strong><span>No account? Register here</span></strong><br><br>
+						<a class="btn btn-link-1" href="/film/regist">Regist</a>
+						<!--<a class="btn btn-link-2" href="#">Button 2</a>-->
+					</div>
+				</div>
+				<div class="col-sm-5 form-box">
+					<div class="form-top">
+						<div class="form-top-left">
+							<h3>Sign up now</h3>
+							<p>Fill in the form below to get instant access:</p>
+						</div>
+						<div class="form-top-right">
+							<i class="fa fa-pencil"></i>
+						</div>
+						<div class="form-top-divider"></div>
+					</div>
+					<div class="form-bottom">
+						<form role="form" action="" method="post" class="registration-form">
+							<div class="form-group">
+								<!--laberl中for绑定input中的id-->
+								<label class="sr-only" for="Name">Account Id</label>
+								<input type="text" name="form-first-name" placeholder="Account Id" class="form-control" id="Name">
+							</div>
+							<div class="form-group" id="div_password">
+								<label class="sr-only" for="password">Password</label>
+								<input type="password" name="password" placeholder="Enter your password here" class="form-control" id="password" onblur="Pwdcheck">
+								<span id="span_password" class="" aria-hidden="true"></span>
+							</div>
+							<!--当button的type为button时会关闭自动提交功能-->
+							<button type="button" class="btn" onclick="Pwdcheck()">Regist Now</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!-- Javascript -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="js/jquery.backstretch.min.js"></script>
+<script src="js/retina-1.1.0.min.js"></script>
+<script src="js/changeBackgroundImg.js"></script>
+
+
+<!--[if lt IE 10]>
+<script src="js/placeholder.js"></script>
+<![endif]-->
+
+</body>
+
+</html>

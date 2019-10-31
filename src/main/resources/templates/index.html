@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>狗眼电影</title>
+    <link rel="stylesheet" href="css/head.css">
+    <link rel="stylesheet" href="css/body.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <script type="text/javascript">
+        // $(function () { $("appdownload").hover(
+        //     function () {
+        //         document.getElementById('iphone-icon').removeAttribute('display');
+        //     }
+        //     )
+        // })
+        function app_download_in() {
+            document.getElementById('download-icon').style.display='inline-block';
+            document.getElementById('app-download').style.borderLeft="1 px solid transparent";
+            document.getElementById('app-download').style.borderRight="1 px solid transparent";
+        }
+        function app_download_out() {
+            document.getElementById('download-icon').style.display='none';
+        }
+
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <!--图片的background-image没写,需要后期插入-->
+            <a href="index" class="logo"></a>
+            <!--选择城市-->
+            <div class="city-container"></div>
+            <!--各页面-->
+            <div class="nav">
+                <ul class="nav-bar">
+                    <li><a href="index" class="navbar-brand active">首页</a></li>
+                    <li><a href="#" class="navbar-brand">电影</a></li>
+                    <li><a href="#" class="navbar-brand">影院</a></li>
+                    <li><a href="#" class="navbar-brand">榜单</a></li>
+                    <li><a href="#" class="navbar-brand">热点</a></li>
+                    <li><a href="#" class="navbar-brand">商城</a></li>
+
+                </ul>
+            </div>
+
+
+            <!--app下载(下拉框)-->
+            <div class="app-download" id="app-download" onmouseover="app_download_in()" onmouseout="app_download_out()">
+                <a href="#" target="_blank">
+                    <span class="iphone-icon" id="iphone-icon" ></span>
+                    <span class="apptext">APP下载</span>
+                    <span class="caret"></span>
+                    <div class="download-icon" id="download-icon">
+                        <p class="down-title">扫码下载APP</p>
+                        <p class="down-content">选座更优惠</p>
+                    </div>
+                </a>
+            </div>
+            <!--搜索框-->
+            <form action="" class="search-form">
+                <input type="text" placeholder="查询电影,影院" maxlength="32" autocomplete="off" class="search" >
+                <!--input中valye=""可以去除默认提交文字-->
+                <input type="submit" class="submit" value="">
+            </form>
+            <!--用户信息-->
+            <div class="personal-detail">
+                <div class="user-avater">
+                    <a href="/film/regist">
+                    <img src="/film/img/index/user-default.png">
+                    <span class="caret"></span>
+                    <ul class="user-menu">
+                        <li>
+                            <a href="/film/login">登录</a>
+                        </li>
+                    </ul>
+                    </a>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <!--占位-->
+    <div class="header-placeholder _web-inspector-hide-shortcut_"></div>
+
+    <div class="container">
+        <div class="content">
+            <div class="aside">
+                <!--侧边四个栏目-->
+                <div class="ranking-box-wrapper">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">
+                                <span class="textcolor_orange">今日票房</span>
+                            </span>
+                        </div>
+                        <div class="panel-content">
+                             <ul class="ranking-wrapper ranking-box">
+                                 <!--票房第一名-->
+                                 <li class="ranking-item ranking-top ranking-index-1" >
+                                     <!--a标签传movieid到后台-->
+                                     <a href="#"></a>
+                                     <div class="ranking-top-left">
+                                         <i class="ranking-top-icon"></i>
+                                         <img class="ranking-img default-img" src="movieSrc/today.jpg">
+                                     </div>
+                                     <div class="ranking-top-right">
+                                         <div class="ranking-top-right-main">
+                                             <span class="ranking-top-movie-name">沉睡魔咒2</span>
+                                             <p class="ranking-top-wish">
+                                                 <span class="broadway">1000</span>万
+                                             </p>
+                                         </div>
+                                     </div>
+                                 </li>
+                                 <li class="ranking-item" th:each="item,state:${movieRank2And3}">
+                                     <a th:href="'/film/'+${item.getMovieId()}">
+                                         <span class="normal-link">
+                                             <i class="ranking-index23" th:text="${state.index}+2"></i>
+                                             <span class="ranking-movie-name" th:text="${item.getMovieName()}"></span>
+                                             <span class="ranking-num-info">
+                                                 <span class="broadway" th:text="${item.getMovieBox()}/1000"></span>万
+                                             </span>
+                                         </span>
+                                     </a>
+                                 </li>
+                                 <li class="ranking-item" th:each="item,state:${fourToTen}">
+                                     <a th:href="'/film/'+${item.getMovieId()}">
+                                         <span class="normal-link">
+                                             <i class="ranking-index4-10" th:text="${state.index}+4"></i>
+                                             <span class="ranking-movie-name" th:text="${item.getMovieName()}"></span>
+                                             <span class="ranking-num-info">
+                                                 <span class="broadway" th:text="${item.getMovieBox()}/10000"></span>万
+                                             </span>
+                                         </span>
+                                     </a>
+                                 </li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--clearfix清除浮动-->
+                <div class="box-office-wrapper clearfix">
+                    <h3>今日大盘</h3>
+                    <div>
+                        <p>
+                            <span class="num">
+                                <span class="broadway">7459.8</span>万
+                            </span>
+                            <!--href通向票房-->
+                            <a class="more" href="#">
+                                查看更多
+                                <span class="panel-arrow panel-arrow-orange"></span>
+                            </a>
+                        </p>
+                        <p class="meta-info">
+                            北京时间10:35:23
+                            <span class="pull-right">狗眼实时票房数据</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="most-execpt-wrapper">
+                    <div class="panel-header">
+                        <span class="panel-more">
+                            <a class="textcolor-yellow">
+                                <span>查看完整榜单</span>
+                            </a>
+                            <!--箭头-->
+                            <span class="panel-arrow panel-arrow-yellow"></span>
+                        </span>
+                        <span class="panel-title">
+                            <span class="textcolor-yellow">最受期待</span>
+                        </span>
+                    </div>
+                    <div class="panel-content">
+                        <ul class="ranking-wrapper ranking-mostexpect">
+                            <li class="ranking-item ranking-index-1">
+                                <!--通过th标签传入电影id-->
+                                <a href="#">
+                                    <div class="ranking-top-left">
+                                        <i class="ranking-top-icon"></i>
+                                        <img src="movieSrc/f55529fe-89cc-43de-b1d9-307fbf50464c.jpg"class="ranking-img default-img">
+                                    </div>
+                                    <div class="ranking-top-right">
+                                        <div class="ranking-top-right-main">
+                                            <span class="ranking-top-movie-name">少年的你</span>
+                                            <p class="ranking-release-time">上映时间:2019-10-25</p>
+                                            <p class="ranking-top-wish">
+                                                    <span class="stonefont">993237</span>人想看
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="ranking-item ranking-index-2">
+                                <a>
+                                    <i class="ranking-index">2</i>
+                                    <span class="img-link">
+                                        <img src="movieSrc/969d049c-5516-4e07-84b2-38a129d61603.jpg" class="ranking-img default-img">
+                                    </span>
+                                    <div class="name-link ranking-movie-name">唐人街探案3</div>
+                                    <span class="ranking-num-info">
+                                        <span class="stonefont">428879</span>人想看
+                                    </span>
+                                </a>
+                            </li>
+                            <!--3-->
+                            <li class="ranking-item ranking-index-3">
+                                <a>
+                                    <i class="ranking-index">3</i>
+                                    <span class="img-link">
+                                        <img src="movieSrc/2564bd2e-11ca-4c89-9d76-c0616ca2d091.jpg" class="ranking-img default-img">
+                                    </span>
+                                    <div class="name-link ranking-movie-name">叶问4</div>
+                                    <span class="ranking-num-info">
+                                        <span class="stonefont">94225</span>人想看
+                                    </span>
+                                </a>
+                            </li>
+                            <!--4-10-->
+                            <li class="ranking-item ranking-item4-10" th:each="item,state:${exceptFourToTen}">
+                                <a th:href="'/film/'+${item.getMovieId()}">
+                                         <span class="normal-link">
+                                             <i class="ranking-index4-10" th:text="${state.index}+4"></i>
+                                             <span class="ranking-movie-name" th:text="${item.getMovieName()}"></span>
+                                             <span class="ranking-num-info">
+                                                 <span class="broadway" th:text="${item.getMovieExcept()}"></span>人想看
+                                             </span>
+                                         </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="top-100-wrapper"></div>
+            </div>
+            <div class="main">
+                <div class="movie-grid">
+                    <div class="pane1">
+                        <div class="pane-header">
+                            <!--全部-->
+                            <span class="pane-more">
+                                <a href="#" class="textcolor-orange">
+                                    <span>全部</span>
+                                </a>
+                                <span class="pane-arrow panel-arrow-orange"></span>
+                            </span>
+                            <span class="panel-title">
+                                <span class="textcolor-orange">正在热映(25部)</span>
+                            </span>
+                        </div>
+                        <!--正在热映-->
+                        <div class="pane-content">
+                            <dl class="movie-list">
+                                <!--dd这里需要遍历-->
+                                <dd th:each="item,state:${movie8}">
+                                    <div class="movie-Item" >
+                                        <a th:href="'/film/'+${item.getMovieId()}" >
+                                            <div class="movie-poster">
+                                                <!--默认图片/film/img/movieItem/logo.png-->
+                                                <img src="/film/img/index/logo.png" class="poster-default">
+                                                <!--电影图片-->
+                                                <img th:src="@{'movieSrc/'+${item.getMovieMainImg()}+'.jpg'}">
+                                                <!--<img src="/Document/model.png"class="poster-default">-->
+                                                <div class="movie-overlay movie-overlay-bg">
+                                                    <div class="movie-info">
+                                                        <div class="movie-title"  th:title="${item.getMovieName()}" th:text="${item.getMovieName()}"></div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </a>
+                                        <div class="movie-detail movie-detail-strong movie-sale">
+                                            <a href="" class="active">购 票</a>
+                                        </div>
+                                        <div class="movie-ver">
+                                            <i class="imax2d"></i>
+                                        </div>
+                                    </div>
+                                </dd>
+                                <!--这里下一部电影再添加dd,通过th遍历-->
+                            </dl>
+                        </div>
+                    </div>
+                    <!--待完成-->
+                    <!--即将上映-->
+                    <div class="pane1">
+                        <div class="pane-header">
+                            <!--全部-->
+                            <span class="pane-more">
+                                <a href="#" class="textcolor-blue">
+                                    <span>全部</span>
+                                </a>
+                                <span class="pane-arrow panel-arrow-blue"></span>
+                            </span>
+                            <span class="panel-title">
+                                <span class="textcolor-blue">即将上映(128部)</span>
+                            </span>
+                        </div>
+                        <div class="pane-content">
+                            <dl class="movie-list">
+                                <dd th:each="item,state:${upComingEight}">
+                                    <div class="movie-Item" >
+                                        <a th:href="'/film/'+${item.getMovieId()}" >
+                                            <div class="movie-poster">
+                                                <!--默认图片/film/img/movieItem/logo.png-->
+                                                <img src="/film/img/index/logo.png" class="poster-default">
+                                                <!--电影图片-->
+                                                <img th:src="@{'movieSrc/'+${item.getMovieMainImg()}+'.jpg'}">
+                                                <!--<img src="/Document/model.png"class="poster-default">-->
+                                                <div class="movie-overlay movie-overlay-bg">
+                                                    <div class="movie-info">
+                                                        <div class="movie-title"  th:title="${item.getMovieName()}" th:text="${item.getMovieName()}"></div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </a>
+                                        <div class="movie-detail movie-wish">
+                                            <span class="broadway">100</span>人想看
+                                        </div>
+                                        <div class="movie-detail movie-detail-strong movie-presale">
+                                            <a class="movie-presale-sep" href="#">预告片</a>
+                                            <a class="active" href="#">预 售</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="movie-detail movie-releasetime"></div>
+
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <!--热播电影/按照评分推荐/不想做了-->
+                    <div class="pane1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <span class="contect-us">Copyright © 2019.  All rights reserved By William Wang. </span>
+    </div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>影院-狗眼电影-给你最极致的电影享受</title>
+    <link rel="stylesheet" href="css/head.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/movie_item/movie_item.css">
+    <script type="text/javascript">
+        // $(function () { $("appdownload").hover(
+        //     function () {
+        //         document.getElementById('iphone-icon').removeAttribute('display');
+        //     }
+        //     )
+        // })
+        function app_download_in() {
+            document.getElementById('download-icon').style.display='inline-block';
+            document.getElementById('app-download').style.borderLeft="1 px solid transparent";
+            document.getElementById('app-download').style.borderRight="1 px solid transparent";
+        }
+        function app_download_out() {
+            document.getElementById('download-icon').style.display='none';
+            var movieId = $('#MId').attr('movieId');
+            console.log(movieId);
+        }
+
+        // window.onload = function () {
+        //     var movieId = $('#MId').attr('movieId');
+        //     console.log(movieId);
+        // }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <!--图片的background-image没写,需要后期插入-->
+            <a href="index" class="logo"></a>
+            <!--选择城市-->
+            <div class="city-container"></div>
+            <!--各页面-->
+            <div class="nav">
+                <ul class="nav-bar">
+                    <li><a href="/film/index" class="navbar-brand">首页</a></li>
+                    <li><a href="#" class="navbar-brand">电影</a></li>
+                    <li><a href="#" class="navbar-brand active">影院</a></li>
+                    <li><a href="#" class="navbar-brand">榜单</a></li>
+                    <li><a href="#" class="navbar-brand">热点</a></li>
+                    <li><a href="#" class="navbar-brand">商城</a></li>
+
+                </ul>
+            </div>
+
+
+            <!--app下载(下拉框)-->
+            <div class="app-download" id="app-download" onmouseover="app_download_in()" onmouseout="app_download_out()">
+                <a href="#" target="_blank">
+                    <span class="iphone-icon" id="iphone-icon" ></span>
+                    <span class="apptext">APP下载</span>
+                    <span class="caret"></span>
+                    <div class="download-icon" id="download-icon">
+                        <p class="down-title">扫码下载APP</p>
+                        <p class="down-content">选座更优惠</p>
+                    </div>
+                </a>
+            </div>
+            <!--搜索框-->
+            <form action="" class="search-form">
+                <input type="text" placeholder="查询电影,影院" maxlength="32" autocomplete="off" class="search" >
+                <!--input中valye=""可以去除默认提交文字-->
+                <input type="submit" class="submit" value="">
+            </form>
+            <!--用户信息-->
+            <div class="personal-detail">
+                <div class="user-avater">
+                    <img src="/film/img/index/user-default.png">
+                    <span class="caret"></span>
+                    <ul class="user-menu">
+                        <li>
+                            <a href="#">登录</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="banner">
+        <div class="wrapper clearfix">
+            <div class="movieInfo-left">
+                <div class="avater-shadow">
+                    <!--th:src="@{'movieSrc/'+${item.getMovieMainImg()}+'.jpg'}"-->
+                    <img class="avater" th:src="@{'movieSrc/'+${movie.getMovieMainImg()}+'.jpg'}">
+                    <div class="movie-ver"></div>
+                </div>
+            </div>
+            <div class="movieInfo_right clearfix">
+                <div class="movie-brief-container">
+                    <h3 class="name" th:text="${movie.getMovieName()}"></h3>
+                    <div class="ename ellipsis" th:text="${movie.getMovieOtherName()}"></div>
+                    <ul>
+                        <li class="ellipsis"th:text="${movie.getMovieType()}"></li>
+                        <li class="ellipsis"th:text="'中国大陆/'+${movie.getMovieDuration()}+'分钟'"></li>
+                        <li class="ellipsis" th:text="${movie.getMovieRelease()}"></li>
+                        <li class="ellipsis" th:text="${releaseDate}"></li>
+                    </ul>
+                </div>
+                <div class="action-buyBtn">
+                    <div class="action clearfix">
+                        <a class="wish">
+                            <div>
+                                <i class="icon wish-icon"></i>
+                                <span class="wish-click">想看</span>
+                            </div>
+                        </a>
+                        <a class="score-btn">
+                            <div>
+                                <i class="icon score-btn-icon"></i>
+                                <span class="score-btn-msg">评分</span>
+                            </div>
+                        </a>
+                    </div>
+                    <a class="btn buy">特惠购票</a>
+                </div>
+                <div class="movie-stats-container">
+                    <div class="movie-index">
+                        <p class="movie-index-title">用户评分</p>
+                        <div class="movie-index-content score normal-score">
+                            <span class="index-left no-info">暂无</span>
+                        </div>
+                    </div>
+                    <div class="movie-index">
+                        <p class="movie-index-title">累计票房</p>
+                        <div class="movie-index-content box">
+                            <span class="malgun-gothic"th:text="${movie.getMovieBox()/10000}"></span>
+                            <span class="unit">万</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

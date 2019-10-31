@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.william.film.mapper.ClassMapper">
+  <resultMap id="BaseResultMap" type="com.william.film.pojo.Class">
+    <id column="Class_level" jdbcType="INTEGER" property="classLevel" />
+    <result column="Class_Name" jdbcType="VARCHAR" property="className" />
+    <result column="Class_Discount" jdbcType="DOUBLE" property="classDiscount" />
+    <result column="Class_State" jdbcType="INTEGER" property="classState" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Class_level, Class_Name, Class_Discount, Class_State
+  </sql>
+  <select id="selectByExample" parameterType="com.william.film.pojo.ClassExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from class
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from class
+    where Class_level = #{classLevel,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from class
+    where Class_level = #{classLevel,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.william.film.pojo.ClassExample">
+    delete from class
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.william.film.pojo.Class">
+    insert into class (Class_level, Class_Name, Class_Discount, 
+      Class_State)
+    values (#{classLevel,jdbcType=INTEGER}, #{className,jdbcType=VARCHAR}, #{classDiscount,jdbcType=DOUBLE}, 
+      #{classState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.william.film.pojo.Class">
+    insert into class
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="classLevel != null">
+        Class_level,
+      </if>
+      <if test="className != null">
+        Class_Name,
+      </if>
+      <if test="classDiscount != null">
+        Class_Discount,
+      </if>
+      <if test="classState != null">
+        Class_State,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="classLevel != null">
+        #{classLevel,jdbcType=INTEGER},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classDiscount != null">
+        #{classDiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="classState != null">
+        #{classState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.william.film.pojo.ClassExample" resultType="java.lang.Long">
+    select count(*) from class
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update class
+    <set>
+      <if test="record.classLevel != null">
+        Class_level = #{record.classLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.className != null">
+        Class_Name = #{record.className,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classDiscount != null">
+        Class_Discount = #{record.classDiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.classState != null">
+        Class_State = #{record.classState,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update class
+    set Class_level = #{record.classLevel,jdbcType=INTEGER},
+      Class_Name = #{record.className,jdbcType=VARCHAR},
+      Class_Discount = #{record.classDiscount,jdbcType=DOUBLE},
+      Class_State = #{record.classState,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.william.film.pojo.Class">
+    update class
+    <set>
+      <if test="className != null">
+        Class_Name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classDiscount != null">
+        Class_Discount = #{classDiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="classState != null">
+        Class_State = #{classState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Class_level = #{classLevel,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.william.film.pojo.Class">
+    update class
+    set Class_Name = #{className,jdbcType=VARCHAR},
+      Class_Discount = #{classDiscount,jdbcType=DOUBLE},
+      Class_State = #{classState,jdbcType=INTEGER}
+    where Class_level = #{classLevel,jdbcType=INTEGER}
+  </update>
+</mapper>

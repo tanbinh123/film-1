@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.william.film.mapper.TheaterMapper">
+  <resultMap id="BaseResultMap" type="com.william.film.pojo.Theater">
+    <id column="Theater_Id" jdbcType="INTEGER" property="theaterId" />
+    <result column="Theater_Province" jdbcType="VARCHAR" property="theaterProvince" />
+    <result column="Theater_City" jdbcType="VARCHAR" property="theaterCity" />
+    <result column="Theater_Area" jdbcType="VARCHAR" property="theaterArea" />
+    <result column="Theater_Brand" jdbcType="VARCHAR" property="theaterBrand" />
+    <result column="Thrater_State" jdbcType="INTEGER" property="thraterState" />
+    <result column="Theater_Specfic_Location" jdbcType="VARCHAR" property="theaterSpecficLocation" />
+    <result column="Theater_Telephone" jdbcType="VARCHAR" property="theaterTelephone" />
+    <result column="Theater_Img" jdbcType="VARCHAR" property="theaterImg" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Theater_Id, Theater_Province, Theater_City, Theater_Area, Theater_Brand, Thrater_State, 
+    Theater_Specfic_Location, Theater_Telephone, Theater_Img
+  </sql>
+  <select id="selectByExample" parameterType="com.william.film.pojo.TheaterExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from theater
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from theater
+    where Theater_Id = #{theaterId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from theater
+    where Theater_Id = #{theaterId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.william.film.pojo.TheaterExample">
+    delete from theater
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.william.film.pojo.Theater">
+    insert into theater (Theater_Id, Theater_Province, Theater_City, 
+      Theater_Area, Theater_Brand, Thrater_State, 
+      Theater_Specfic_Location, Theater_Telephone, 
+      Theater_Img)
+    values (#{theaterId,jdbcType=INTEGER}, #{theaterProvince,jdbcType=VARCHAR}, #{theaterCity,jdbcType=VARCHAR}, 
+      #{theaterArea,jdbcType=VARCHAR}, #{theaterBrand,jdbcType=VARCHAR}, #{thraterState,jdbcType=INTEGER}, 
+      #{theaterSpecficLocation,jdbcType=VARCHAR}, #{theaterTelephone,jdbcType=VARCHAR}, 
+      #{theaterImg,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.william.film.pojo.Theater">
+    insert into theater
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="theaterId != null">
+        Theater_Id,
+      </if>
+      <if test="theaterProvince != null">
+        Theater_Province,
+      </if>
+      <if test="theaterCity != null">
+        Theater_City,
+      </if>
+      <if test="theaterArea != null">
+        Theater_Area,
+      </if>
+      <if test="theaterBrand != null">
+        Theater_Brand,
+      </if>
+      <if test="thraterState != null">
+        Thrater_State,
+      </if>
+      <if test="theaterSpecficLocation != null">
+        Theater_Specfic_Location,
+      </if>
+      <if test="theaterTelephone != null">
+        Theater_Telephone,
+      </if>
+      <if test="theaterImg != null">
+        Theater_Img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="theaterId != null">
+        #{theaterId,jdbcType=INTEGER},
+      </if>
+      <if test="theaterProvince != null">
+        #{theaterProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="theaterCity != null">
+        #{theaterCity,jdbcType=VARCHAR},
+      </if>
+      <if test="theaterArea != null">
+        #{theaterArea,jdbcType=VARCHAR},
+      </if>
+      <if test="theaterBrand != null">
+        #{theaterBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="thraterState != null">
+        #{thraterState,jdbcType=INTEGER},
+      </if>
+      <if test="theaterSpecficLocation != null">
+        #{theaterSpecficLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="theaterTelephone != null">
+        #{theaterTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="theaterImg != null">
+        #{theaterImg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.william.film.pojo.TheaterExample" resultType="java.lang.Long">
+    select count(*) from theater
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update theater
+    <set>
+      <if test="record.theaterId != null">
+        Theater_Id = #{record.theaterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.theaterProvince != null">
+        Theater_Province = #{record.theaterProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.theaterCity != null">
+        Theater_City = #{record.theaterCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.theaterArea != null">
+        Theater_Area = #{record.theaterArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.theaterBrand != null">
+        Theater_Brand = #{record.theaterBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thraterState != null">
+        Thrater_State = #{record.thraterState,jdbcType=INTEGER},
+      </if>
+      <if test="record.theaterSpecficLocation != null">
+        Theater_Specfic_Location = #{record.theaterSpecficLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.theaterTelephone != null">
+        Theater_Telephone = #{record.theaterTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.theaterImg != null">
+        Theater_Img = #{record.theaterImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update theater
+    set Theater_Id = #{record.theaterId,jdbcType=INTEGER},
+      Theater_Province = #{record.theaterProvince,jdbcType=VARCHAR},
+      Theater_City = #{record.theaterCity,jdbcType=VARCHAR},
+      Theater_Area = #{record.theaterArea,jdbcType=VARCHAR},
+      Theater_Brand = #{record.theaterBrand,jdbcType=VARCHAR},
+      Thrater_State = #{record.thraterState,jdbcType=INTEGER},
+      Theater_Specfic_Location = #{record.theaterSpecficLocation,jdbcType=VARCHAR},
+      Theater_Telephone = #{record.theaterTelephone,jdbcType=VARCHAR},
+      Theater_Img = #{record.theaterImg,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.william.film.pojo.Theater">
+    update theater
+    <set>
+      <if test="theaterProvince != null">
+        Theater_Province = #{theaterProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="theaterCity != null">
+        Theater_City = #{theaterCity,jdbcType=VARCHAR},
+      </if>
+      <if test="theaterArea != null">
+        Theater_Area = #{theaterArea,jdbcType=VARCHAR},
+      </if>
+      <if test="theaterBrand != null">
+        Theater_Brand = #{theaterBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="thraterState != null">
+        Thrater_State = #{thraterState,jdbcType=INTEGER},
+      </if>
+      <if test="theaterSpecficLocation != null">
+        Theater_Specfic_Location = #{theaterSpecficLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="theaterTelephone != null">
+        Theater_Telephone = #{theaterTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="theaterImg != null">
+        Theater_Img = #{theaterImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Theater_Id = #{theaterId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.william.film.pojo.Theater">
+    update theater
+    set Theater_Province = #{theaterProvince,jdbcType=VARCHAR},
+      Theater_City = #{theaterCity,jdbcType=VARCHAR},
+      Theater_Area = #{theaterArea,jdbcType=VARCHAR},
+      Theater_Brand = #{theaterBrand,jdbcType=VARCHAR},
+      Thrater_State = #{thraterState,jdbcType=INTEGER},
+      Theater_Specfic_Location = #{theaterSpecficLocation,jdbcType=VARCHAR},
+      Theater_Telephone = #{theaterTelephone,jdbcType=VARCHAR},
+      Theater_Img = #{theaterImg,jdbcType=VARCHAR}
+    where Theater_Id = #{theaterId,jdbcType=INTEGER}
+  </update>
+</mapper>

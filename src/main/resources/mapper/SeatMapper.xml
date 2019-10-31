@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.william.film.mapper.SeatMapper">
+  <resultMap id="BaseResultMap" type="com.william.film.pojo.Seat">
+    <id column="Seat_Col" jdbcType="INTEGER" property="seatCol" />
+    <id column="Seat_Row" jdbcType="INTEGER" property="seatRow" />
+    <result column="Hall_Id" jdbcType="INTEGER" property="hallId" />
+    <result column="Seat_Exist" jdbcType="INTEGER" property="seatExist" />
+    <result column="Seat_State" jdbcType="INTEGER" property="seatState" />
+    <result column="Seat_Level" jdbcType="INTEGER" property="seatLevel" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Seat_Col, Seat_Row, Hall_Id, Seat_Exist, Seat_State, Seat_Level
+  </sql>
+  <select id="selectByExample" parameterType="com.william.film.pojo.SeatExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from seat
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.william.film.pojo.SeatKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from seat
+    where Seat_Col = #{seatCol,jdbcType=INTEGER}
+      and Seat_Row = #{seatRow,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.william.film.pojo.SeatKey">
+    delete from seat
+    where Seat_Col = #{seatCol,jdbcType=INTEGER}
+      and Seat_Row = #{seatRow,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.william.film.pojo.SeatExample">
+    delete from seat
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.william.film.pojo.Seat">
+    insert into seat (Seat_Col, Seat_Row, Hall_Id, 
+      Seat_Exist, Seat_State, Seat_Level
+      )
+    values (#{seatCol,jdbcType=INTEGER}, #{seatRow,jdbcType=INTEGER}, #{hallId,jdbcType=INTEGER}, 
+      #{seatExist,jdbcType=INTEGER}, #{seatState,jdbcType=INTEGER}, #{seatLevel,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.william.film.pojo.Seat">
+    insert into seat
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seatCol != null">
+        Seat_Col,
+      </if>
+      <if test="seatRow != null">
+        Seat_Row,
+      </if>
+      <if test="hallId != null">
+        Hall_Id,
+      </if>
+      <if test="seatExist != null">
+        Seat_Exist,
+      </if>
+      <if test="seatState != null">
+        Seat_State,
+      </if>
+      <if test="seatLevel != null">
+        Seat_Level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seatCol != null">
+        #{seatCol,jdbcType=INTEGER},
+      </if>
+      <if test="seatRow != null">
+        #{seatRow,jdbcType=INTEGER},
+      </if>
+      <if test="hallId != null">
+        #{hallId,jdbcType=INTEGER},
+      </if>
+      <if test="seatExist != null">
+        #{seatExist,jdbcType=INTEGER},
+      </if>
+      <if test="seatState != null">
+        #{seatState,jdbcType=INTEGER},
+      </if>
+      <if test="seatLevel != null">
+        #{seatLevel,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.william.film.pojo.SeatExample" resultType="java.lang.Long">
+    select count(*) from seat
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update seat
+    <set>
+      <if test="record.seatCol != null">
+        Seat_Col = #{record.seatCol,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatRow != null">
+        Seat_Row = #{record.seatRow,jdbcType=INTEGER},
+      </if>
+      <if test="record.hallId != null">
+        Hall_Id = #{record.hallId,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatExist != null">
+        Seat_Exist = #{record.seatExist,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatState != null">
+        Seat_State = #{record.seatState,jdbcType=INTEGER},
+      </if>
+      <if test="record.seatLevel != null">
+        Seat_Level = #{record.seatLevel,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update seat
+    set Seat_Col = #{record.seatCol,jdbcType=INTEGER},
+      Seat_Row = #{record.seatRow,jdbcType=INTEGER},
+      Hall_Id = #{record.hallId,jdbcType=INTEGER},
+      Seat_Exist = #{record.seatExist,jdbcType=INTEGER},
+      Seat_State = #{record.seatState,jdbcType=INTEGER},
+      Seat_Level = #{record.seatLevel,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.william.film.pojo.Seat">
+    update seat
+    <set>
+      <if test="hallId != null">
+        Hall_Id = #{hallId,jdbcType=INTEGER},
+      </if>
+      <if test="seatExist != null">
+        Seat_Exist = #{seatExist,jdbcType=INTEGER},
+      </if>
+      <if test="seatState != null">
+        Seat_State = #{seatState,jdbcType=INTEGER},
+      </if>
+      <if test="seatLevel != null">
+        Seat_Level = #{seatLevel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Seat_Col = #{seatCol,jdbcType=INTEGER}
+      and Seat_Row = #{seatRow,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.william.film.pojo.Seat">
+    update seat
+    set Hall_Id = #{hallId,jdbcType=INTEGER},
+      Seat_Exist = #{seatExist,jdbcType=INTEGER},
+      Seat_State = #{seatState,jdbcType=INTEGER},
+      Seat_Level = #{seatLevel,jdbcType=INTEGER}
+    where Seat_Col = #{seatCol,jdbcType=INTEGER}
+      and Seat_Row = #{seatRow,jdbcType=INTEGER}
+  </update>
+</mapper>

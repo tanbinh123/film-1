@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="'http://www.w3.org/1999/xhtml">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bootstrap Flat Registration Form Template</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/form-elements.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+
+	<!-- Favicon and touch icons -->
+	<link rel="shortcut icon" href="ico/favicon.png">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+	<script type="text/javascript">
+
+        /**
+         * @return {number}
+         */
+        function NameCheck(){
+            var customerName = document.getElementById('name').value;
+            var flag = 0;
+				if(null!=customerName&&0!=customerName){
+                    $.ajax({
+                        url:'regist/NameCheck',
+                        method:'post',
+                        data:'customerName='+customerName,
+                        //async设置为false才可在success中return或者给参数赋值
+                        async:false,
+                        success:function (data) {
+                            console.log(data);
+                            if(data){
+                                document.getElementById('div_name').className ='form-group has-success has-feedback';
+                                document.getElementById('span_name').className ='glyphicon glyphicon-ok form-control-feedback';
+                                flag = 1;
+                            }else{
+                                document.getElementById('div_name').className ='form-group has-error has-feedback';
+                                document.getElementById('span_name').className ='glyphicon glyphicon-warning-sign form-control-feedback';
+                                alert("用户名重复!")
+                                flag = 0;
+                            }
+                        },
+                        error:function () {
+                            console.log('通讯失败');
+                            flag = 0;
+                        }
+
+
+                    })
+				}
+
+			console.log(flag);
+                return flag;
+
+		}
+		function PhoneCheck(){
+            var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+            if (!myreg.test(document.getElementById('phone').value)) {
+                document.getElementById('div_phone').className ='form-group has-error has-feedback';
+                document.getElementById('span_phone').className ='glyphicon glyphicon-warning-sign form-control-feedback';
+                return 0;//1成功,0失败
+            } else {
+                document.getElementById('div_phone').className ='form-group has-success has-feedback';
+                document.getElementById('span_phone').className ='glyphicon glyphicon-ok form-control-feedback';
+                return 1;
+            }
+		}
+        function EmailCheck(){
+            var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+            if (!myreg.test(document.getElementById('email').value)) {
+                document.getElementById('div_email').className ='form-group has-error has-feedback';
+                document.getElementById('span_email').className ='glyphicon glyphicon-warning-sign form-control-feedback';
+                return 0;
+            } else {
+                document.getElementById('div_email').className ='form-group has-success has-feedback';
+                document.getElementById('span_email').className ='glyphicon glyphicon-ok form-control-feedback';
+                return 1;
+            }
+        }
+
+		function Pwdcheck() {
+            if (password.value != confirm_password.value) {
+                // alert("Entered passwords differ!");
+                document.getElementById('div_password').className = ' form-group has-error has-feedback';
+                document.getElementById('div_confirm_password').className = 'form-group has-error has-feedback';
+                document.getElementById('span_password').className = 'glyphicon glyphicon-warning-sign form-control-feedback';
+                document.getElementById('span_password_confirm').className = 'glyphicon glyphicon-warning-sign form-control-feedback';
+                return 0;
+
+            }
+            else {
+                document.getElementById('div_password').className = 'form-group has-success has-feedback';
+                document.getElementById('div_confirm_password').className = 'form-group has-success has-feedback';
+                document.getElementById('span_password').className = 'glyphicon glyphicon-ok form-control-feedback';
+                document.getElementById('span_password_confirm').className = 'glyphicon glyphicon-ok form-control-feedback';
+                var customerName = document.getElementById('name').value;
+                var customerPhone = document.getElementById('phone').value;
+                var customerPwd = document.getElementById('password').value;
+                var customerEmail = document.getElementById('email').value;
+                console.log(customerName);
+                console.log(customerPhone);
+                console.log(customerPwd);
+                console.log(customerEmail);
+                return 1;
+                // $.ajax({
+                // 	url:'regist/NewUser',
+                // 	method:'post',
+                // 	data:'customerName='+customerName+'&customerPhone='+customerPhone+'&customerPwd='+customerPwd+'&customerEmail='+customerEmail,
+                // 	success:function (data) {
+                // 		console.log('通讯成功');
+                // 		window.location.href("login.html");
+                //    },
+                //    error:function () {
+                // 		console.log('通讯失败');
+                //    }
+                //
+                //
+                // })
+
+            }
+        }
+            function submitCheck() {
+		    var i = Pwdcheck();
+                var name = document.getElementById('name').value;
+                var pwd = document.getElementById('password').value;
+                var phone = document.getElementById('phone').value;
+                var email = document.getElementById('email').value;
+                console.log(name)
+				console.log("namecheck:"+NameCheck());
+                console.log("emailcheck:"+EmailCheck());
+                console.log("phonecheck:"+PhoneCheck());
+                console.log("pwdcheck:"+Pwdcheck());
+                if(NameCheck()==1&&Pwdcheck()==1&&EmailCheck()==1&&PhoneCheck()==1){
+                    $.ajax({
+                        url:'regist/NewUser',
+                        method:'post',
+                        data:'customerName='+name+'&customerPhone='+phone+'&customerPwd='+pwd+'&customerEmail='+email,
+                        success:function (data) {
+                            alert('注册成功!')
+                            window.location.href="/film/login";
+                        },
+                        error:function () {
+                            console.log('通讯失败');
+                        }
+
+
+                    })
+				}
+				else {
+                    alert("来自button的警告");
+                    return false;
+				}
+
+		}
+	</script>
+</head>
+
+<body>
+
+<!-- Top menu -->
+<nav class="navbar navbar-inverse navbar-no-bg" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="index.html">Bootstrap Flat Registration Form Template</a>
+		</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="top-navbar-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+							<span class="li-text">
+								Put some text or
+							</span>
+					<a href="#"><strong>links</strong></a>
+					<span class="li-text">
+								here, or some icons:
+							</span>
+					<span class="li-social">
+								<a href="#"><i class="fa fa-facebook"></i></a>
+								<a href="#"><i class="fa fa-twitter"></i></a>
+								<a href="#"><i class="fa fa-envelope"></i></a>
+								<a href="#"><i class="fa fa-skype"></i></a>
+							</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<!-- Top content -->
+<div class="top-content">
+	<div class="copyrights">Collect from <a href="http://www.william.com/"  title="william">william's</a></div>
+	<div class="inner-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-7 text">
+					<h1><strong>GouYan's Film</strong>Please Regist Here</h1>
+					<div class="description">
+						<p>
+							我们期望给与您最极致的观影体验<br>
+							We hope to give you the best experience
+						</p>
+					</div>
+					<div class="top-big-link">
+						<strong><span>Already have account? Login here</span></strong><br><br>
+						<a class="btn btn-link-1" href="/film/login">Login</a>
+						<!--<a class="btn btn-link-2" href="#">Button 2</a>-->
+					</div>
+				</div>
+				<div class="col-sm-5 form-box">
+					<div class="form-top">
+						<div class="form-top-left">
+							<h3>Sign up now</h3>
+							<p>Fill in the form below to get instant access:</p>
+						</div>
+						<div class="form-top-right">
+							<i class="fa fa-pencil"></i>
+						</div>
+						<div class="form-top-divider"></div>
+					</div>
+					<div class="form-bottom">
+						<form role="form" action="" method="post" class="registration-form" name="regist">
+							<div class="form-group"id="div_name">
+								<!--laberl中for绑定input中的id-->
+								<h3 style="color: #ffffff">Account Name:</h3>
+								<label class="sr-only" for="Name">Account Name</label>
+								<span id="span_name" class="" aria-hidden="true" style="float: right"></span>
+									<!--<span style="float: right;color: red">用户名重复2</span>-->
+								<!--<span id="span_name3" class="" aria-hidden="true" style="float: right">用户名重复2</span>-->
+								<input type="text" name="form-account-name" placeholder="Account Id" class="form-control" id="name" onblur="NameCheck()">
+
+								<!--<span id="span_name2" class="" aria-hidden="true">用户名重复</span>-->
+							</div>
+
+							<div class="form-group" id="div_email">
+								<h3>Email:</h3>
+								<label class="sr-only" for="email">Email:</label>
+								<input type="text" name="form-email" placeholder="Email..." class="form-control" id="email" onkeyup="EmailCheck()">
+								<span id="span_email" class="" aria-hidden="true"></span>
+							</div>
+							<div class="form-group" id="div_phone">
+								<h3>Phone:</h3>
+								<label class="sr-only" for="phone">Phone:</label>
+								<input type="text" name="form-phone" placeholder="Phone..." class="form-control" id="phone" onkeyup="PhoneCheck()">
+								<span id="span_phone" class="" aria-hidden="true"></span>
+
+							</div>
+							<div class="form-group" id="div_password">
+								<h3>Password:</h3>
+								<label class="sr-only" for="password">Password:</label>
+								<input type="password" name="form_password" placeholder="Enter your password here" class="form-control" id="password">
+								<span id="span_password" class="" aria-hidden="true"></span>
+							</div>
+							<div class="form-group" id="div_confirm_password">
+								<!--<label class="sr-only" for="confirm_password">Confirm_Password</label>-->
+								<h3>Confirm Password:</h3>
+								<input type="password" name="confirm_password" placeholder="Confirm your password here" class="form-control" id="confirm_password" onkeyup="Pwdcheck()">
+								<span id="span_password_confirm" class="" aria-hidden="true"></span>
+							</div>
+							<button type="button" class="btn" onclick="submitCheck()" >Regist Now</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!-- Javascript -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="js/jquery.backstretch.min.js"></script>
+<script src="js/retina-1.1.0.min.js"></script>
+<script src="js/changeBackgroundImg.js"></script>
+
+
+<!--[if lt IE 10]>
+<script src="js/placeholder.js"></script>
+<![endif]-->
+
+</body>
+
+</html>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.william.film.mapper.HallMapper">
+  <resultMap id="BaseResultMap" type="com.william.film.pojo.Hall">
+    <id column="Hall_Id" jdbcType="INTEGER" property="hallId" />
+    <result column="Theater_Id" jdbcType="INTEGER" property="theaterId" />
+    <result column="Hall_Type" jdbcType="VARCHAR" property="hallType" />
+    <result column="Hall_Basic_Price" jdbcType="INTEGER" property="hallBasicPrice" />
+    <result column="Hall_Description" jdbcType="VARCHAR" property="hallDescription" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Hall_Id, Theater_Id, Hall_Type, Hall_Basic_Price, Hall_Description
+  </sql>
+  <select id="selectByExample" parameterType="com.william.film.pojo.HallExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from hall
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hall
+    where Hall_Id = #{hallId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hall
+    where Hall_Id = #{hallId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.william.film.pojo.HallExample">
+    delete from hall
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.william.film.pojo.Hall">
+    insert into hall (Hall_Id, Theater_Id, Hall_Type, 
+      Hall_Basic_Price, Hall_Description)
+    values (#{hallId,jdbcType=INTEGER}, #{theaterId,jdbcType=INTEGER}, #{hallType,jdbcType=VARCHAR}, 
+      #{hallBasicPrice,jdbcType=INTEGER}, #{hallDescription,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.william.film.pojo.Hall">
+    insert into hall
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hallId != null">
+        Hall_Id,
+      </if>
+      <if test="theaterId != null">
+        Theater_Id,
+      </if>
+      <if test="hallType != null">
+        Hall_Type,
+      </if>
+      <if test="hallBasicPrice != null">
+        Hall_Basic_Price,
+      </if>
+      <if test="hallDescription != null">
+        Hall_Description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hallId != null">
+        #{hallId,jdbcType=INTEGER},
+      </if>
+      <if test="theaterId != null">
+        #{theaterId,jdbcType=INTEGER},
+      </if>
+      <if test="hallType != null">
+        #{hallType,jdbcType=VARCHAR},
+      </if>
+      <if test="hallBasicPrice != null">
+        #{hallBasicPrice,jdbcType=INTEGER},
+      </if>
+      <if test="hallDescription != null">
+        #{hallDescription,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.william.film.pojo.HallExample" resultType="java.lang.Long">
+    select count(*) from hall
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update hall
+    <set>
+      <if test="record.hallId != null">
+        Hall_Id = #{record.hallId,jdbcType=INTEGER},
+      </if>
+      <if test="record.theaterId != null">
+        Theater_Id = #{record.theaterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.hallType != null">
+        Hall_Type = #{record.hallType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hallBasicPrice != null">
+        Hall_Basic_Price = #{record.hallBasicPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.hallDescription != null">
+        Hall_Description = #{record.hallDescription,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update hall
+    set Hall_Id = #{record.hallId,jdbcType=INTEGER},
+      Theater_Id = #{record.theaterId,jdbcType=INTEGER},
+      Hall_Type = #{record.hallType,jdbcType=VARCHAR},
+      Hall_Basic_Price = #{record.hallBasicPrice,jdbcType=INTEGER},
+      Hall_Description = #{record.hallDescription,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.william.film.pojo.Hall">
+    update hall
+    <set>
+      <if test="theaterId != null">
+        Theater_Id = #{theaterId,jdbcType=INTEGER},
+      </if>
+      <if test="hallType != null">
+        Hall_Type = #{hallType,jdbcType=VARCHAR},
+      </if>
+      <if test="hallBasicPrice != null">
+        Hall_Basic_Price = #{hallBasicPrice,jdbcType=INTEGER},
+      </if>
+      <if test="hallDescription != null">
+        Hall_Description = #{hallDescription,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Hall_Id = #{hallId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.william.film.pojo.Hall">
+    update hall
+    set Theater_Id = #{theaterId,jdbcType=INTEGER},
+      Hall_Type = #{hallType,jdbcType=VARCHAR},
+      Hall_Basic_Price = #{hallBasicPrice,jdbcType=INTEGER},
+      Hall_Description = #{hallDescription,jdbcType=VARCHAR}
+    where Hall_Id = #{hallId,jdbcType=INTEGER}
+  </update>
+</mapper>

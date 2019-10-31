@@ -1,0 +1,19 @@
+div{
+    display: block;
+}
+.footer{
+    background-color: #262426;
+    padding: 56px 0;
+    margin: 0 auto;
+    min-width: 1200px;
+    margin-top: 82px;
+    /*visibility: hidden;*/
+}
+.footer .contect-us{
+    font-size: 20px;
+    color: #ee5509;
+    text-align: center;
+    left: 600px;
+    position: relative;
+
+}
