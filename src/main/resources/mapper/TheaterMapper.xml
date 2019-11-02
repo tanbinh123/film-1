@@ -3,6 +3,7 @@
 <mapper namespace="com.william.film.mapper.TheaterMapper">
   <resultMap id="BaseResultMap" type="com.william.film.pojo.Theater">
     <id column="Theater_Id" jdbcType="INTEGER" property="theaterId" />
+    <result column="Theater_Name" jdbcType="VARCHAR" property="theaterName" />
     <result column="Theater_Province" jdbcType="VARCHAR" property="theaterProvince" />
     <result column="Theater_City" jdbcType="VARCHAR" property="theaterCity" />
     <result column="Theater_Area" jdbcType="VARCHAR" property="theaterArea" />
@@ -12,6 +13,18 @@
     <result column="Theater_Telephone" jdbcType="VARCHAR" property="theaterTelephone" />
     <result column="Theater_Img" jdbcType="VARCHAR" property="theaterImg" />
   </resultMap>
+  <select id="selectTheaterByAreaBrand" resultMap="BaseResultMap">
+    SELECT * FROM theater
+    <where>
+      <if test="area!=null">
+        AND Theater_Area LIKE '%${area}%'
+      </if>
+      <if test="brand!=null">
+        AND Theater_Brand LIKE '%${brand}%'
+      </if>
+    </where>
+
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -71,8 +84,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    Theater_Id, Theater_Province, Theater_City, Theater_Area, Theater_Brand, Thrater_State, 
-    Theater_Specfic_Location, Theater_Telephone, Theater_Img
+    Theater_Id, Theater_Name, Theater_Province, Theater_City, Theater_Area, Theater_Brand, 
+    Thrater_State, Theater_Specfic_Location, Theater_Telephone, Theater_Img
   </sql>
   <select id="selectByExample" parameterType="com.william.film.pojo.TheaterExample" resultMap="BaseResultMap">
     select
@@ -105,13 +118,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.film.pojo.Theater">
-    insert into theater (Theater_Id, Theater_Province, Theater_City, 
-      Theater_Area, Theater_Brand, Thrater_State, 
-      Theater_Specfic_Location, Theater_Telephone, 
+    insert into theater (Theater_Id, Theater_Name, Theater_Province, 
+      Theater_City, Theater_Area, Theater_Brand, 
+      Thrater_State, Theater_Specfic_Location, Theater_Telephone, 
       Theater_Img)
-    values (#{theaterId,jdbcType=INTEGER}, #{theaterProvince,jdbcType=VARCHAR}, #{theaterCity,jdbcType=VARCHAR}, 
-      #{theaterArea,jdbcType=VARCHAR}, #{theaterBrand,jdbcType=VARCHAR}, #{thraterState,jdbcType=INTEGER}, 
-      #{theaterSpecficLocation,jdbcType=VARCHAR}, #{theaterTelephone,jdbcType=VARCHAR}, 
+    values (#{theaterId,jdbcType=INTEGER}, #{theaterName,jdbcType=VARCHAR}, #{theaterProvince,jdbcType=VARCHAR}, 
+      #{theaterCity,jdbcType=VARCHAR}, #{theaterArea,jdbcType=VARCHAR}, #{theaterBrand,jdbcType=VARCHAR}, 
+      #{thraterState,jdbcType=INTEGER}, #{theaterSpecficLocation,jdbcType=VARCHAR}, #{theaterTelephone,jdbcType=VARCHAR}, 
       #{theaterImg,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.william.film.pojo.Theater">
@@ -119,6 +132,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="theaterId != null">
         Theater_Id,
+      </if>
+      <if test="theaterName != null">
+        Theater_Name,
       </if>
       <if test="theaterProvince != null">
         Theater_Province,
@@ -148,6 +164,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="theaterId != null">
         #{theaterId,jdbcType=INTEGER},
+      </if>
+      <if test="theaterName != null">
+        #{theaterName,jdbcType=VARCHAR},
       </if>
       <if test="theaterProvince != null">
         #{theaterProvince,jdbcType=VARCHAR},
@@ -187,6 +206,9 @@
       <if test="record.theaterId != null">
         Theater_Id = #{record.theaterId,jdbcType=INTEGER},
       </if>
+      <if test="record.theaterName != null">
+        Theater_Name = #{record.theaterName,jdbcType=VARCHAR},
+      </if>
       <if test="record.theaterProvince != null">
         Theater_Province = #{record.theaterProvince,jdbcType=VARCHAR},
       </if>
@@ -219,6 +241,7 @@
   <update id="updateByExample" parameterType="map">
     update theater
     set Theater_Id = #{record.theaterId,jdbcType=INTEGER},
+      Theater_Name = #{record.theaterName,jdbcType=VARCHAR},
       Theater_Province = #{record.theaterProvince,jdbcType=VARCHAR},
       Theater_City = #{record.theaterCity,jdbcType=VARCHAR},
       Theater_Area = #{record.theaterArea,jdbcType=VARCHAR},
@@ -234,6 +257,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.william.film.pojo.Theater">
     update theater
     <set>
+      <if test="theaterName != null">
+        Theater_Name = #{theaterName,jdbcType=VARCHAR},
+      </if>
       <if test="theaterProvince != null">
         Theater_Province = #{theaterProvince,jdbcType=VARCHAR},
       </if>
@@ -263,7 +289,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.william.film.pojo.Theater">
     update theater
-    set Theater_Province = #{theaterProvince,jdbcType=VARCHAR},
+    set Theater_Name = #{theaterName,jdbcType=VARCHAR},
+      Theater_Province = #{theaterProvince,jdbcType=VARCHAR},
       Theater_City = #{theaterCity,jdbcType=VARCHAR},
       Theater_Area = #{theaterArea,jdbcType=VARCHAR},
       Theater_Brand = #{theaterBrand,jdbcType=VARCHAR},

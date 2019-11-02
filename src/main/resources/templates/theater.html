@@ -6,29 +6,9 @@
     <link rel="stylesheet" href="css/head.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="css/movie_item/movie_item.css">
-    <script type="text/javascript">
-        // $(function () { $("appdownload").hover(
-        //     function () {
-        //         document.getElementById('iphone-icon').removeAttribute('display');
-        //     }
-        //     )
-        // })
-        function app_download_in() {
-            document.getElementById('download-icon').style.display='inline-block';
-            document.getElementById('app-download').style.borderLeft="1 px solid transparent";
-            document.getElementById('app-download').style.borderRight="1 px solid transparent";
-        }
-        function app_download_out() {
-            document.getElementById('download-icon').style.display='none';
-            var movieId = $('#MId').attr('movieId');
-            console.log(movieId);
-        }
-
-        // window.onload = function () {
-        //     var movieId = $('#MId').attr('movieId');
-        //     console.log(movieId);
-        // }
-    </script>
+    <link rel="stylesheet" href="css/theater.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <script src="js/jquery-1.11.1.min.js"></script>
 </head>
 <body>
     <div class="header">
@@ -118,7 +98,7 @@
                             </div>
                         </a>
                     </div>
-                    <a class="btn buy">特惠购票</a>
+                    <a th:href="'/film/'+${movie.getMovieId()}" class="btn buy">查看更多电影详情</a>
                 </div>
                 <div class="movie-stats-container">
                     <div class="movie-index">
@@ -138,5 +118,44 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <div class="tags-panel">
+            <ul class="tags-lines">
+                <li class="tags-line">
+                    <div class="tags-title">日期:</div>
+                    <ul class="tags" id="dates">
+                        <!--js中加七天-->
+                    </ul>
+                </li>
+                <li class="tags-line tags-line-border">
+                    <div class="tags-title">影院:</div>
+                    <ul class="tags theater">
+                        <li class="active" id="theaterAll"><a href="#" onclick="setTheaterEmpty()">全部</a></li>
+                        <li th:each="item,state:${theaterBrand}" th:id="'theater'+${item.getBrandId()}"><a href="#" th:text="${item.getBrandName()}" th:name="'theater'+${item.getBrandId()}" onclick="theaterClick(this)"></a></li>
+                    </ul>
+                </li>
+                <li class="tags-line tags-line-border">
+                    <div class="tags-title">地区:</div>
+                    <ul class="tags area">
+                        <li class="active" id="areaAll"><a href="#" onclick="setAreaEmpty()">全部</a></li>
+                        <li th:each="a,state:${area}" th:id="'area'+${a.getAreaId()}"><a href="#" th:text="${a.getAreaName()}" th:name="'area'+${a.getAreaId()}" onclick="areaClick(this)"></a></li>
+                    </ul>
+                </li>
+                <!--特殊厅-->
+                <li class="tags-line tags-line-border"></li>
+            </ul>
+        </div>
+        <div class="cinemas-list">
+            <h2 class="cinemas-list-header">影院列表</h2>
+            <div id="container-cinema-cell">
+              <!--通过js添加电影院-->
+            </div>
+        </div>
+
+    </div>
+    <div class="footer">
+        <span class="contect-us">Copyright © 2019.  All rights reserved By William Wang. </span>
+    </div>
 </body>
+<script src="js/theater.js"></script>
 </html>

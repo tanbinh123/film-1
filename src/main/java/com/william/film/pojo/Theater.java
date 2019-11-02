@@ -3,6 +3,8 @@ package com.william.film.pojo;
 public class Theater {
     private Integer theaterId;
 
+    private String theaterName;
+
     private String theaterProvince;
 
     private String theaterCity;
@@ -25,6 +27,14 @@ public class Theater {
 
     public void setTheaterId(Integer theaterId) {
         this.theaterId = theaterId;
+    }
+
+    public String getTheaterName() {
+        return theaterName;
+    }
+
+    public void setTheaterName(String theaterName) {
+        this.theaterName = theaterName;
     }
 
     public String getTheaterProvince() {
@@ -89,5 +99,21 @@ public class Theater {
 
     public void setTheaterImg(String theaterImg) {
         this.theaterImg = theaterImg;
+    }
+
+    @Override
+    public String toString() {
+        return "Theater{" +
+                "theaterId=" + theaterId +
+                ", theaterName='" + theaterName + '\'' +
+                ", theaterProvince='" + theaterProvince + '\'' +
+                ", theaterCity='" + theaterCity + '\'' +
+                ", theaterArea='" + theaterArea + '\'' +
+                ", theaterBrand='" + theaterBrand + '\'' +
+                ", thraterState=" + thraterState +
+                ", theaterSpecficLocation='" + theaterSpecficLocation + '\'' +
+                ", theaterTelephone='" + theaterTelephone + '\'' +
+                ", theaterImg='" + theaterImg + '\'' +
+                '}';
     }
 }

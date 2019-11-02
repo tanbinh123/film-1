@@ -164,6 +164,76 @@ public class TheaterExample {
             return (Criteria) this;
         }
 
+        public Criteria andTheaterNameIsNull() {
+            addCriterion("Theater_Name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameIsNotNull() {
+            addCriterion("Theater_Name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameEqualTo(String value) {
+            addCriterion("Theater_Name =", value, "theaterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameNotEqualTo(String value) {
+            addCriterion("Theater_Name <>", value, "theaterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameGreaterThan(String value) {
+            addCriterion("Theater_Name >", value, "theaterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameGreaterThanOrEqualTo(String value) {
+            addCriterion("Theater_Name >=", value, "theaterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameLessThan(String value) {
+            addCriterion("Theater_Name <", value, "theaterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameLessThanOrEqualTo(String value) {
+            addCriterion("Theater_Name <=", value, "theaterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameLike(String value) {
+            addCriterion("Theater_Name like", value, "theaterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameNotLike(String value) {
+            addCriterion("Theater_Name not like", value, "theaterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameIn(List<String> values) {
+            addCriterion("Theater_Name in", values, "theaterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameNotIn(List<String> values) {
+            addCriterion("Theater_Name not in", values, "theaterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameBetween(String value1, String value2) {
+            addCriterion("Theater_Name between", value1, value2, "theaterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andTheaterNameNotBetween(String value1, String value2) {
+            addCriterion("Theater_Name not between", value1, value2, "theaterName");
+            return (Criteria) this;
+        }
+
         public Criteria andTheaterProvinceIsNull() {
             addCriterion("Theater_Province is null");
             return (Criteria) this;
