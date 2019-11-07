@@ -25,6 +25,9 @@
     </where>
 
   </select>
+  <select id="selectTheaterNameById" resultType="String">
+    Select Theater_Name from theater where Theater_Id = #{theaterId,jdbcType=INTEGER};
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

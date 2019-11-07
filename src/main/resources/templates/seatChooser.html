@@ -151,23 +151,23 @@
             <div class="show-info">
                 <div class="info-item">
                     <span>影院 :</span>
-                    <span class="value text-ellipsis">幸福蓝海国际影城（河西店）</span>
+                    <span class="value text-ellipsis" th:text="${theaterName}"></span>
                 </div>
                 <div class="info-item">
                     <span>影厅 :</span>
-                    <span class="value text-ellipsis">10号激光厅-4K</span>
+                    <span class="value text-ellipsis" th:text="${schedule.getHallName()}"></span>
                 </div>
                 <div class="info-item">
                     <span>版本 :</span>
-                    <span class="value text-ellipsis">国语2D</span>
+                    <span class="value text-ellipsis" th:text="${schedule.getBroadcastType()}"></span>
                 </div>
                 <div class="info-item">
                     <span>场次 :</span>
-                    <span class="value text-ellipsis screen">今天 11月6 12:40</span>
+                    <span class="value text-ellipsis screen" th:text="${scheduleDate}"></span>
                 </div>
                 <div class="info-item">
                     <span>票价 :</span>
-                    <span class="value text-ellipsis">￥34.5/张</span>
+                    <span class="value text-ellipsis" id="single-price" th:text="'￥'+${schedule.getSchedulePrice()}+'/张'" th:data-price="${schedule.getSchedulePrice()}"></span>
                 </div>
             </div>
             <div class="ticket-info">
@@ -185,7 +185,7 @@
                 </div>
                 <div class="total-price">
                     <span>总价 :</span>
-                    <span class="price">0</span>
+                    <span class="price" id="total-price">0</span>
                 </div>
             </div>
             <div class="confirm-info">

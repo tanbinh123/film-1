@@ -19,6 +19,13 @@ public interface TheaterMapper {
      * @return
      */
     List<Theater>selectTheaterByAreaBrand(@Param("area") String area,@Param("brand") String brand);
+
+    /**
+     * 通过id获得theaterName
+     * @param theaterId
+     * @return
+     */
+    String selectTheaterNameById(Integer theaterId);
     long countByExample(TheaterExample example);
 
     int deleteByExample(TheaterExample example);

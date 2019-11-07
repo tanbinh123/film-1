@@ -159,7 +159,7 @@ function showSchedule() {
                                         '                                <span class="sell-price">'+arr.schedulePrice+'</span>\n' +
                                         '                            </td>\n' +
                                         '                            <td>\n' +
-                                        '                                <a href="/film/seat_chooser?scheduleId='+arr.scheduleId+'" class="buy-btn normal">选座购票</a>\n' +
+                                        '                                <a href="/film/seat_chooser?scheduleId='+arr.scheduleId+'&hallId='+arr.hallId+'" class="buy-btn normal">选座购票</a>\n' +
                                         '                            </td>\n' +
                                         '                        </tr>\n'
                                     flag++;

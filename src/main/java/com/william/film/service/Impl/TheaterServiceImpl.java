@@ -32,4 +32,9 @@ public class TheaterServiceImpl implements TheaterService {
     public List<Theater> selectTheaterByAreaBrand(String area, String brand) {
         return theaterMapper.selectTheaterByAreaBrand(area,brand);
     }
+
+    @Override
+    public String findTheaterNameById(Integer theaterId) {
+        return theaterMapper.selectTheaterNameById(theaterId);
+    }
 }

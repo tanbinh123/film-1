@@ -28,4 +28,11 @@ public interface TheaterService {
      * @return
      */
     List<Theater>selectTheaterByAreaBrand(String area,String brand);
+
+    /**
+     * 通过影院id查找影院名
+     * @param theaterId
+     * @return
+     */
+    String findTheaterNameById(Integer theaterId);
 }

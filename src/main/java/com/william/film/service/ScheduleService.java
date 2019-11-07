@@ -1,6 +1,7 @@
 package com.william.film.service;
 
 import com.william.film.pojo.Schedule;
+import com.william.film.pojo.ScheduleWithHallName;
 
 public interface ScheduleService {
     /**
@@ -9,4 +10,11 @@ public interface ScheduleService {
      * @return
      */
     public Schedule getScheduleById(Integer scheduleID);
+
+    /**
+     * 通过id返回ScheduleWithHallName
+     * @param scheduleId
+     * @return
+     */
+    public ScheduleWithHallName getScheduleWithName(Integer scheduleId);
 }

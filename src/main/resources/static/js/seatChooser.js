@@ -1,3 +1,20 @@
+//以下方法用于获得地址栏参数
+//http://www.runoob.com/index.php?id=1&image=awesome.jpg
+// 调用 getQueryVariable("id") 返回 1
+// 调用 getQueryVariable("image") 返回 "awesome.jpg"
+function getQueryVariable(variable)
+{
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
+}
+console.log('getQueryVariable(hallId):'+getQueryVariable('hallId'));
+var hallId = getQueryVariable('hallId')
+
 var domRow = document.querySelectorAll('.seats-wrapper .row');
 //遍历行数/添加座位
 for(var i = 0;i<domRow.length;i++){
@@ -7,7 +24,7 @@ for(var i = 0;i<domRow.length;i++){
     var divRowId = domRow[i].id
     $.ajax({
         url:'/film/get_row_seat',
-        data:'theater=1&hallId=1&row='+rowIndex,
+        data:'theater=1&hallId='+hallId+'&row='+rowIndex,
         dataType:'json',
         async:false,
         success: function (data) {
@@ -52,7 +69,6 @@ function selectSeat(e) {
         if(domSelectedNum.length==5){
             document.getElementById('warning').style.display = 'block';
             e.className = 'seat selectable';
-
         }
     }else{
         e.className = 'seat selectable';
@@ -67,8 +83,17 @@ function selectSeat(e) {
             document.getElementById('has-ticket').style.display = 'none';
         }
     }
+    var selected = document.querySelectorAll('.seats-wrapper .row .selected');
+    var singlePrice = document.getElementById('single-price').getAttribute('data-price');
+    console.log('singlePrice:'+singlePrice);
+    var totalPrice = selected.length * singlePrice;
+    console.log("totalprice:"+totalPrice);
+    //设置总价
+    document.getElementById('total-price').textContent = totalPrice;
+
 
 }
 function dismissWarning() {
     document.getElementById('warning').style.display = 'none';
 }
+
