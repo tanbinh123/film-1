@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/head.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/theater_item.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        function app_download_in() {
+            document.getElementById('download-icon').style.display='inline-block';
+            document.getElementById('app-download').style.borderLeft="1 px solid transparent";
+            document.getElementById('app-download').style.borderRight="1 px solid transparent";
+        }
+        function app_download_out() {
+            document.getElementById('download-icon').style.display='none';
+        }
+
+    </script>
+</head>
+<body>
+<div class="header">
+    <div class="header-inner">
+        <!--图片的background-image没写,需要后期插入-->
+        <a href="index" class="logo"></a>
+        <!--选择城市-->
+        <div class="city-container"></div>
+        <!--各页面-->
+        <div class="nav">
+            <ul class="nav-bar">
+                <li><a href="/film/index" class="navbar-brand">首页</a></li>
+                <li><a href="#" class="navbar-brand">电影</a></li>
+                <li><a href="#" class="navbar-brand">影院</a></li>
+                <li><a href="#" class="navbar-brand">榜单</a></li>
+                <li><a href="#" class="navbar-brand">热点</a></li>
+                <li><a href="#" class="navbar-brand">商城</a></li>
+
+            </ul>
+        </div>
+
+
+        <!--app下载(下拉框)-->
+        <div class="app-download" id="app-download" onmouseover="app_download_in()" onmouseout="app_download_out()">
+            <a href="#" target="_blank">
+                <span class="iphone-icon" id="iphone-icon" ></span>
+                <span class="apptext">APP下载</span>
+                <span class="caret"></span>
+                <div class="download-icon" id="download-icon">
+                    <p class="down-title">扫码下载APP</p>
+                    <p class="down-content">选座更优惠</p>
+                </div>
+            </a>
+        </div>
+        <!--搜索框-->
+        <form action="" class="search-form">
+            <input type="text" placeholder="查询电影,影院" maxlength="32" autocomplete="off" class="search" >
+            <!--input中valye=""可以去除默认提交文字-->
+            <input type="submit" class="submit" value="">
+        </form>
+        <!--用户信息-->
+        <div class="personal-detail">
+            <div class="user-avater">
+                <img src="/film/img/index/user-default.png">
+                <span class="caret"></span>
+                <ul class="user-menu">
+                    <li>
+                        <a href="#">登录</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="banner theater-banner">
+    <div class="wrapper clearfix">T
+        <div class="theater-left">
+            <div class="avatar-shadow">
+                <img class="avatar" src="/film/img/theater/theater.jpg">
+                <div class="avatar-num">查看全部9张图片</div>
+            </div>
+        </div>
+        <div class="theater-main clearfix">
+            <div class="theater-brief-container">
+                <!--通过上一theater页面传入点击的电影院id,后台返回改影院实体类来获得影院资讯-->
+                <!--目前写死这个影院-->
+                <h3 class="name text-ellipsis">幸福蓝海国际影城（河西店）</h3>
+                <div class="address text-ellipsis">建邺区江东中路237号雨润国际广场5楼</div>
+                <div class="telphone">电话：025-57030098/15905144934</div>
+                <div class="features-group">
+                    <div class="group-title">影院服务</div>
+                    <div class="feature">
+                        <span class="tag ">3D眼镜</span>
+                        <p class="desc text-ellipsis" title=""></p>
+                    </div>
+                    <div class="feature">
+                        <span class="tag ">儿童优惠</span>
+                        <p class="desc text-ellipsis" title="4D影片观影儿童也需购票，2D/3D影片观影1.3米以下儿童免票无座。">4D影片观影儿童也需购票，2D/3D影片观影1.3米以下儿童免票无座。</p>
+                    </div>
+                    <div class="feature">
+                        <span class="tag park-tag">可停车</span>
+                        <p class="desc text-ellipsis" title="4D影片观影儿童也需购票，2D/3D影片观影1.3米以下儿童免票无座。">4D影片观影儿童也需购票，2D/3D影片观影1.3米以下儿童免票无座。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <!--id设置为影院id-->
+    <div class="movie-list-container">
+        <!--点击左右按钮之后,将movie-list的left属性变为-1140px可得到下一页面-->
+        <div class="movie-list" id="movie-list">
+            <!--id设置为movie_id-->
+            <div class="movie"  th:each="item:${todayScheduleMovie}" onclick="changeMovieActive(this)" th:id="${item.getMovieId()}+'-img'" th:name="${item.getMovieName()}">
+                <img th:src="'movieSrc/'+${item.getMovieMainImg()}+'.jpg'">
+            </div>
+            <span class="pointer" style="left: 71px;"></span>
+        </div>
+        <span class="scroll-prev scroll-btn"></span>
+        <span class="scroll-next scroll-btn"></span>
+    </div>
+    <!--遍历-->
+    <div class="show-list-container" id="show-list-container">
+        <div class="show-list" th:each="item:${todayScheduleMovie}" th:id="'movie'+${item.getMovieId()}">
+            <div class="movie-info">
+                <div>
+                    <h3 class="movie-name" th:text="${item.getMovieName()}"></h3>
+                    <span class="score sc" th:text="${item.getMovieAverageStars()}"></span>
+                </div>
+
+                <div class="movie-desc">
+                    <div>
+                        <span class="key">时长 :</span>
+                        <span class="value"th:text="${item.getMovieDuration()}+'分钟'"></span>
+                    </div>
+                    <div>
+                        <span class="key">类型 :</span>
+                        <span class="value"th:text="${item.getMovieType()}"></span>
+                    </div>
+                    <div>
+                        <span class="key">导演 :</span>
+                        <span class="value"th:text="${item.getMovieDrictor()}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="show-date">
+                <div class="show-date">
+                    <span>观影时间 :</span>
+                    <div class="dateContainer" th:id="'dateContainerId'+${item.getMovieId()}">
+                        <!--<span class="date-item active" id="11-3" onclick="changeDate(this)">今天 11月3</span>-->
+                        <!--<span class="date-item " id="11-4" onclick="changeDate(this)">明天 11月4</span>-->
+                        <!--<span class="date-item " id="11-5" onclick="changeDate(this)">后天 11月5</span>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-container" th:id="'p-container'+${item.getMovieId()}">
+                <!--遍历获得排片表-->
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div style="display: none">
+    <table>
+        <tr th:each="item:${todayScheduleMovie}" class="schedule_id_table">
+            <td th:text="${item.getMovieName()}" th:id="${item.getMovieId()}"></td>
+        </tr>
+    </table>
+</div>
+<div class="footer">
+    <span class="contect-us">Copyright © 2019.  All rights reserved By William Wang. </span>
+</div>
+</body>
+<script src="js/theater_item.js"></script>
+</html>

@@ -802,52 +802,52 @@ public class MovieExample {
             return (Criteria) this;
         }
 
-        public Criteria andMovieBoxEqualTo(Integer value) {
+        public Criteria andMovieBoxEqualTo(Double value) {
             addCriterion("Movie_Box =", value, "movieBox");
             return (Criteria) this;
         }
 
-        public Criteria andMovieBoxNotEqualTo(Integer value) {
+        public Criteria andMovieBoxNotEqualTo(Double value) {
             addCriterion("Movie_Box <>", value, "movieBox");
             return (Criteria) this;
         }
 
-        public Criteria andMovieBoxGreaterThan(Integer value) {
+        public Criteria andMovieBoxGreaterThan(Double value) {
             addCriterion("Movie_Box >", value, "movieBox");
             return (Criteria) this;
         }
 
-        public Criteria andMovieBoxGreaterThanOrEqualTo(Integer value) {
+        public Criteria andMovieBoxGreaterThanOrEqualTo(Double value) {
             addCriterion("Movie_Box >=", value, "movieBox");
             return (Criteria) this;
         }
 
-        public Criteria andMovieBoxLessThan(Integer value) {
+        public Criteria andMovieBoxLessThan(Double value) {
             addCriterion("Movie_Box <", value, "movieBox");
             return (Criteria) this;
         }
 
-        public Criteria andMovieBoxLessThanOrEqualTo(Integer value) {
+        public Criteria andMovieBoxLessThanOrEqualTo(Double value) {
             addCriterion("Movie_Box <=", value, "movieBox");
             return (Criteria) this;
         }
 
-        public Criteria andMovieBoxIn(List<Integer> values) {
+        public Criteria andMovieBoxIn(List<Double> values) {
             addCriterion("Movie_Box in", values, "movieBox");
             return (Criteria) this;
         }
 
-        public Criteria andMovieBoxNotIn(List<Integer> values) {
+        public Criteria andMovieBoxNotIn(List<Double> values) {
             addCriterion("Movie_Box not in", values, "movieBox");
             return (Criteria) this;
         }
 
-        public Criteria andMovieBoxBetween(Integer value1, Integer value2) {
+        public Criteria andMovieBoxBetween(Double value1, Double value2) {
             addCriterion("Movie_Box between", value1, value2, "movieBox");
             return (Criteria) this;
         }
 
-        public Criteria andMovieBoxNotBetween(Integer value1, Integer value2) {
+        public Criteria andMovieBoxNotBetween(Double value1, Double value2) {
             addCriterion("Movie_Box not between", value1, value2, "movieBox");
             return (Criteria) this;
         }

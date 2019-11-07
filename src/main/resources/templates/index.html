@@ -36,11 +36,11 @@
             <div class="nav">
                 <ul class="nav-bar">
                     <li><a href="index" class="navbar-brand active">首页</a></li>
-                    <li><a href="#" class="navbar-brand">电影</a></li>
-                    <li><a href="#" class="navbar-brand">影院</a></li>
-                    <li><a href="#" class="navbar-brand">榜单</a></li>
-                    <li><a href="#" class="navbar-brand">热点</a></li>
-                    <li><a href="#" class="navbar-brand">商城</a></li>
+                    <li><a href="javascript:void(0);" class="navbar-brand">电影</a></li>
+                    <li><a href="theater" class="navbar-brand">影院</a></li>
+                    <li><a href="javascript:void(0);" class="navbar-brand">榜单</a></li>
+                    <li><a href="javascript:void(0);" class="navbar-brand">热点</a></li>
+                    <li><a href="javascript:void(0);" class="navbar-brand">商城</a></li>
 
                 </ul>
             </div>
@@ -275,7 +275,7 @@
                                             </div>
                                         </a>
                                         <div class="movie-detail movie-detail-strong movie-sale">
-                                            <a href="" class="active">购 票</a>
+                                            <a th:href="@{/theater(movieId=${item.getMovieId()})}" class="active">购 票</a>
                                         </div>
                                         <div class="movie-ver">
                                             <i class="imax2d"></i>
@@ -344,5 +344,6 @@
     <div class="footer">
         <span class="contect-us">Copyright © 2019.  All rights reserved By William Wang. </span>
     </div>
+
 </body>
 </html>

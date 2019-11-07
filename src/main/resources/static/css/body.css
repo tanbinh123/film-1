@@ -134,6 +134,11 @@ a{
 .movie-sale a .active{
     color: #ee5509;
 }
+.movie-sale a.active:hover{
+    color: #fff;
+    background-color: #ee5509;
+
+}
 .movie-sale a{
     display: block;
     font-size: 14px;

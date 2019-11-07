@@ -3,11 +3,13 @@ package com.william.film.pojo;
 public class Hall {
     private Integer hallId;
 
+    private String hallName;
+
     private Integer theaterId;
 
     private String hallType;
 
-    private Integer hallBasicPrice;
+    private Double hallBasicPrice;
 
     private String hallDescription;
 
@@ -17,6 +19,14 @@ public class Hall {
 
     public void setHallId(Integer hallId) {
         this.hallId = hallId;
+    }
+
+    public String getHallName() {
+        return hallName;
+    }
+
+    public void setHallName(String hallName) {
+        this.hallName = hallName;
     }
 
     public Integer getTheaterId() {
@@ -35,11 +45,11 @@ public class Hall {
         this.hallType = hallType;
     }
 
-    public Integer getHallBasicPrice() {
+    public double getHallBasicPrice() {
         return hallBasicPrice;
     }
 
-    public void setHallBasicPrice(Integer hallBasicPrice) {
+    public void setHallBasicPrice(double hallBasicPrice) {
         this.hallBasicPrice = hallBasicPrice;
     }
 

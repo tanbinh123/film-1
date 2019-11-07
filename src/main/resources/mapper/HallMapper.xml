@@ -3,11 +3,15 @@
 <mapper namespace="com.william.film.mapper.HallMapper">
   <resultMap id="BaseResultMap" type="com.william.film.pojo.Hall">
     <id column="Hall_Id" jdbcType="INTEGER" property="hallId" />
+    <result column="Hall_Name" jdbcType="VARCHAR" property="hallName" />
     <result column="Theater_Id" jdbcType="INTEGER" property="theaterId" />
     <result column="Hall_Type" jdbcType="VARCHAR" property="hallType" />
-    <result column="Hall_Basic_Price" jdbcType="INTEGER" property="hallBasicPrice" />
+    <result column="Hall_Basic_Price" jdbcType="DOUBLE" property="hallBasicPrice" />
     <result column="Hall_Description" jdbcType="VARCHAR" property="hallDescription" />
   </resultMap>
+  <select id="selectHallNameById" resultType="String">
+    select Hall_Name from hall where Hall_Id = #{hallId,jdbcType=INTEGER};
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -67,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    Hall_Id, Theater_Id, Hall_Type, Hall_Basic_Price, Hall_Description
+    Hall_Id, Hall_Name, Theater_Id, Hall_Type, Hall_Basic_Price, Hall_Description
   </sql>
   <select id="selectByExample" parameterType="com.william.film.pojo.HallExample" resultMap="BaseResultMap">
     select
@@ -100,16 +104,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.film.pojo.Hall">
-    insert into hall (Hall_Id, Theater_Id, Hall_Type, 
-      Hall_Basic_Price, Hall_Description)
-    values (#{hallId,jdbcType=INTEGER}, #{theaterId,jdbcType=INTEGER}, #{hallType,jdbcType=VARCHAR}, 
-      #{hallBasicPrice,jdbcType=INTEGER}, #{hallDescription,jdbcType=VARCHAR})
+    insert into hall (Hall_Id, Hall_Name, Theater_Id, 
+      Hall_Type, Hall_Basic_Price, Hall_Description
+      )
+    values (#{hallId,jdbcType=INTEGER}, #{hallName,jdbcType=VARCHAR}, #{theaterId,jdbcType=INTEGER}, 
+      #{hallType,jdbcType=VARCHAR}, #{hallBasicPrice,jdbcType=INTEGER}, #{hallDescription,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.william.film.pojo.Hall">
     insert into hall
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="hallId != null">
         Hall_Id,
+      </if>
+      <if test="hallName != null">
+        Hall_Name,
       </if>
       <if test="theaterId != null">
         Theater_Id,
@@ -127,6 +136,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="hallId != null">
         #{hallId,jdbcType=INTEGER},
+      </if>
+      <if test="hallName != null">
+        #{hallName,jdbcType=VARCHAR},
       </if>
       <if test="theaterId != null">
         #{theaterId,jdbcType=INTEGER},
@@ -154,6 +166,9 @@
       <if test="record.hallId != null">
         Hall_Id = #{record.hallId,jdbcType=INTEGER},
       </if>
+      <if test="record.hallName != null">
+        Hall_Name = #{record.hallName,jdbcType=VARCHAR},
+      </if>
       <if test="record.theaterId != null">
         Theater_Id = #{record.theaterId,jdbcType=INTEGER},
       </if>
@@ -174,6 +189,7 @@
   <update id="updateByExample" parameterType="map">
     update hall
     set Hall_Id = #{record.hallId,jdbcType=INTEGER},
+      Hall_Name = #{record.hallName,jdbcType=VARCHAR},
       Theater_Id = #{record.theaterId,jdbcType=INTEGER},
       Hall_Type = #{record.hallType,jdbcType=VARCHAR},
       Hall_Basic_Price = #{record.hallBasicPrice,jdbcType=INTEGER},
@@ -185,6 +201,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.william.film.pojo.Hall">
     update hall
     <set>
+      <if test="hallName != null">
+        Hall_Name = #{hallName,jdbcType=VARCHAR},
+      </if>
       <if test="theaterId != null">
         Theater_Id = #{theaterId,jdbcType=INTEGER},
       </if>
@@ -202,7 +221,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.william.film.pojo.Hall">
     update hall
-    set Theater_Id = #{theaterId,jdbcType=INTEGER},
+    set Hall_Name = #{hallName,jdbcType=VARCHAR},
+      Theater_Id = #{theaterId,jdbcType=INTEGER},
       Hall_Type = #{hallType,jdbcType=VARCHAR},
       Hall_Basic_Price = #{hallBasicPrice,jdbcType=INTEGER},
       Hall_Description = #{hallDescription,jdbcType=VARCHAR}

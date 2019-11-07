@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/head.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/seatChooser.css">
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        function app_download_in() {
+            document.getElementById('download-icon').style.display='inline-block';
+            document.getElementById('app-download').style.borderLeft="1 px solid transparent";
+            document.getElementById('app-download').style.borderRight="1 px solid transparent";
+        }
+        function app_download_out() {
+            document.getElementById('download-icon').style.display='none';
+        }
+
+    </script>
+</head>
+<body>
+<div class="header">
+    <div class="header-inner">
+        <!--图片的background-image没写,需要后期插入-->
+        <a href="index" class="logo"></a>
+        <!--选择城市-->
+        <div class="city-container"></div>
+        <!--各页面-->
+        <div class="nav">
+            <ul class="nav-bar">
+                <li><a href="/film/index" class="navbar-brand">首页</a></li>
+                <li><a href="#" class="navbar-brand">电影</a></li>
+                <li><a href="#" class="navbar-brand">影院</a></li>
+                <li><a href="#" class="navbar-brand">榜单</a></li>
+                <li><a href="#" class="navbar-brand">热点</a></li>
+                <li><a href="#" class="navbar-brand">商城</a></li>
+
+            </ul>
+        </div>
+
+
+        <!--app下载(下拉框)-->
+        <div class="app-download" id="app-download" onmouseover="app_download_in()" onmouseout="app_download_out()">
+            <a href="#" target="_blank">
+                <span class="iphone-icon" id="iphone-icon" ></span>
+                <span class="apptext">APP下载</span>
+                <span class="caret"></span>
+                <div class="download-icon" id="download-icon">
+                    <p class="down-title">扫码下载APP</p>
+                    <p class="down-content">选座更优惠</p>
+                </div>
+            </a>
+        </div>
+        <!--搜索框-->
+        <form action="" class="search-form">
+            <input type="text" placeholder="查询电影,影院" maxlength="32" autocomplete="off" class="search" >
+            <!--input中valye=""可以去除默认提交文字-->
+            <input type="submit" class="submit" value="">
+        </form>
+        <!--用户信息-->
+        <div class="personal-detail">
+            <div class="user-avater">
+                <img src="/film/img/index/user-default.png">
+                <span class="caret"></span>
+                <ul class="user-menu">
+                    <li>
+                        <a href="#">登录</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="header-placeholder"></div>
+<div class="container">
+    <div class="order-progress-bar">
+        <div class="step first done">
+            <span class="step-num">1</span>
+            <div class="bar"></div>
+            <span class="step-text">选择电影场次</span>
+        </div>
+        <div class="step done">
+            <span class="step-num">2</span>
+            <div class="bar"></div>
+            <span class="step-text">选择座位</span>
+        </div>
+        <div class="step">
+            <span class="step-num">3</span>
+            <div class="bar"></div>
+            <span class="step-text">付款</span>
+        </div>
+        <div class="step last">
+            <span class="step-num">4</span>
+            <div class="bar"></div>
+            <span class="step-text">影院取票</span>
+        </div>
+    </div>
+    <div class="main clearfix">
+        <div class="hall">
+            <div class="seat-example">
+                <div class="selectable-example example">
+                    <span>可选座位</span>
+                </div>
+                <div class="sold-example example">
+                    <span>已售座位</span>
+                </div>
+                <div class="selected-example example">
+                    <span>已选座位</span>
+                </div>
+                <div class="couple-example example">
+                    <span>情侣座位</span>
+                </div>
+            </div>
+            <!--the hardest part-->
+            <div class="seats-block">
+                <div class="row-id-container" >
+                    <span class="row-id" th:each="item:${rowIndex}" th:text="${item}" ></span>
+                </div>
+                <div class="seats-container">
+                    <div class="screen-container">
+                        <div class="screen">银幕中央</div>
+                        <div class="c-screen-line"></div>
+                    </div>
+                    <div class="seats-wrapper">
+                        <div class="row" th:each="item:${rowIndex}" th:id="${item}+'-row'">
+                            <!--ajax返回一行座位-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="side">
+            <div class="movie-info clearfix">
+                <div class="poster">
+                    <img th:src="@{'movieSrc/'+${movie.getMovieMainImg()}+'.jpg'}">
+                </div>
+                <div class="content">
+                    <p class="name text-ellipsis" th:text="${movie.getMovieName()}"></p>
+                    <div class="info-item">
+                        <span>类型 :</span>
+                        <span class="value" th:text="${movie.getMovieType()}"></span>
+                    </div>
+                    <div class="info-item">
+                        <span>时长 :</span>
+                        <span class="value" th:text="${movie.getMovieDuration()}+'分钟'"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="show-info">
+                <div class="info-item">
+                    <span>影院 :</span>
+                    <span class="value text-ellipsis">幸福蓝海国际影城（河西店）</span>
+                </div>
+                <div class="info-item">
+                    <span>影厅 :</span>
+                    <span class="value text-ellipsis">10号激光厅-4K</span>
+                </div>
+                <div class="info-item">
+                    <span>版本 :</span>
+                    <span class="value text-ellipsis">国语2D</span>
+                </div>
+                <div class="info-item">
+                    <span>场次 :</span>
+                    <span class="value text-ellipsis screen">今天 11月6 12:40</span>
+                </div>
+                <div class="info-item">
+                    <span>票价 :</span>
+                    <span class="value text-ellipsis">￥34.5/张</span>
+                </div>
+            </div>
+            <div class="ticket-info">
+                <div class="no-ticket" id="no-ticket" style="display: block">
+                    <p class="buy-limit">座位：一次最多选4个座位</p>
+                    <p class="no-selected">请<span>点击左侧</span>座位图选择座位</p>
+                </div>
+                <div class="has-ticket" id="has-ticket" style="display: none">
+                    <span class="text">座位：</span>
+                    <!--限制每次最多购票4张-->
+                    <div class="ticket-container" id="ticket-container">
+                        <!--点击左侧的座位之后,在下面添加ticket-->
+                        <!--js function selectSeat(e)方法中添加-->
+                    </div>
+                </div>
+                <div class="total-price">
+                    <span>总价 :</span>
+                    <span class="price">0</span>
+                </div>
+            </div>
+            <div class="confirm-info">
+                <button class="confirm">确认选座</button>
+            </div>
+        </div>
+    </div>
+    <!--用于提醒一次下单最多订票四张-->
+    <div class="model-container"style="display: none" id="warning">
+        <div class="model">
+            <span class="icon"></span>
+            <!--错误提示信息:请输入正确手机号/一次最多只能购买四张票-->
+            <p class="tip">一次最多只能购买四张票</p>
+            <div class="ok-btn btn" onclick="dismissWarning()">我知道了</div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <span class="contect-us">Copyright © 2019.  All rights reserved By William Wang. </span>
+</div>
+<table style="display: none">
+    <tr th:each="item:${rowIndex}" class="index_id_table">
+        <td th:text="${item}"></td>
+    </tr>
+</table>
+</body>
+<script src="js/seatChooser.js"></script>
+</html>

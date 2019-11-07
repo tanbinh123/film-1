@@ -2,7 +2,8 @@ package com.william.film.pojo;
 
 import java.util.Date;
 
-public class Schedule {
+public class ScheduleWithHallName{
+
     private Integer scheduleId;
 
     private Integer movieId;
@@ -20,6 +21,21 @@ public class Schedule {
     private Date scheduleBeginDateTime;
 
     private Date scheduleEndDateTime;
+
+    private String hallName;
+
+    public ScheduleWithHallName(Schedule schedule,String hallName){
+        this.scheduleId = schedule.getScheduleId();
+        this.movieId = schedule.getMovieId();
+        this.theaterId = schedule .getTheaterId();
+        this.hallId = schedule.getHallId();
+        this.broadcastType = schedule.getBroadcastType();
+        this.schedulePrice = schedule.getSchedulePrice();
+        this.scheduleDate = schedule.getScheduleDate();
+        this.scheduleBeginDateTime = schedule.getScheduleBeginDateTime();
+        this.scheduleEndDateTime = schedule.getScheduleEndDateTime();
+        this.hallName = hallName;
+    }
 
     public Integer getScheduleId() {
         return scheduleId;
@@ -91,6 +107,14 @@ public class Schedule {
 
     public void setScheduleEndDateTime(Date scheduleEndDateTime) {
         this.scheduleEndDateTime = scheduleEndDateTime;
+    }
+
+    public String getHallName() {
+        return hallName;
+    }
+
+    public void setHallName(String hallName) {
+        this.hallName = hallName;
     }
 
     @Override

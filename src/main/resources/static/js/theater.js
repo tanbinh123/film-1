@@ -75,14 +75,13 @@ function sendAjax(){
                     //eval函数用于将Json对象解析成字符串
                     var arr = eval(data[i]);
                     // console.log("返回的list:"+data.toString());
-
                     document.getElementById("container-cinema-cell").innerHTML +="<div class=\"cinema-cell\">\n" +
                         "                    <div class=\"cinema-info\">\n" +
-                        "                        <a href=\"javascript:void(0);\" class=\"cinema-name\">"+arr.theaterName+"</a>\n" +
+                        "                        <a href=\"/film/theater_item?theaterId="+arr.theaterId+"\" class=\"cinema-name\" id='"+arr.theaterId+"'>"+arr.theaterName+"</a>\n" +
                         "                        <p class=\"cinema-address\">地址："+arr.theaterSpecficLocation+"</p>\n" +
                         "                    </div>\n" +
                         "                    <div class=\"buy-btn\">\n" +
-                        "                        <a href=\"#\">选座购票</a>\n" +
+                        "                        <a href=\"/film/theater_item?theaterId=\"+arr.theaterId+\"\">选座购票</a>\n" +
                         "                    </div>\n" +
                         "                    <div class=\"price\">\n" +
                         "                        <span class=\"rmb red\">￥</span>\n" +

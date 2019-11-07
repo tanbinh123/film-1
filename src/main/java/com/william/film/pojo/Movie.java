@@ -23,7 +23,7 @@ public class Movie {
 
     private Date movieEnd;
 
-    private Integer movieBox;
+    private Double movieBox;
 
     private String movieBroadcastType;
 
@@ -111,11 +111,11 @@ public class Movie {
         this.movieEnd = movieEnd;
     }
 
-    public Integer getMovieBox() {
+    public Double getMovieBox() {
         return movieBox;
     }
 
-    public void setMovieBox(Integer movieBox) {
+    public void setMovieBox(Double movieBox) {
         this.movieBox = movieBox;
     }
 

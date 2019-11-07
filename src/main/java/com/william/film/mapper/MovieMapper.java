@@ -32,6 +32,13 @@ public interface MovieMapper {
      * @return
      */
     List<Movie> selectByExceptx10(Date date);
+
+    /**
+     * 通过电影id
+     * @param movieId
+     * @return
+     */
+    Movie selectbyId(Integer movieId);
     long countByExample(MovieExample example);
 
     int deleteByExample(MovieExample example);

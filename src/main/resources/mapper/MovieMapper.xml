@@ -12,7 +12,7 @@
     <result column="Movie_Type" jdbcType="VARCHAR" property="movieType" />
     <result column="Movie_Release" jdbcType="DATE" property="movieRelease" />
     <result column="Movie_End" jdbcType="DATE" property="movieEnd" />
-    <result column="Movie_Box" jdbcType="INTEGER" property="movieBox" />
+    <result column="Movie_Box" jdbcType="DOUBLE" property="movieBox" />
     <result column="Movie_Broadcast_Type" jdbcType="VARCHAR" property="movieBroadcastType" />
     <result column="Movie_Except" jdbcType="INTEGER" property="movieExcept" />
     <result column="Movie_Average_Stars" jdbcType="INTEGER" property="movieAverageStars" />
@@ -31,6 +31,9 @@
   </select>
   <select id="selectByExceptx10" resultMap="BaseResultMap">
     select *from movie where Movie_Release>#{date,jdbcType=DATE} order by Movie_Except desc limit 10;
+  </select>
+  <select id="selectbyId" resultMap="BaseResultMap">
+    select * from movie where Movie_Id = #{movieId,jdbcType=INTEGER}
   </select>
   <sql id="Example_Where_Clause">
     <where>

@@ -1,5 +1,6 @@
 package com.william.film.controller;
 
+import com.william.film.pojo.Movie;
 import com.william.film.service.MovieItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,14 +21,21 @@ public class MovieItemController {
 //    }
     @RequestMapping("/{movieID}")
     public String movie_item(@PathVariable("movieID")Integer id, Model model)throws Exception{
-        model.addAttribute("movie",movieItemService.selectMovieById(id));
+        Movie movie = movieItemService.selectMovieById(id);
+        if (null == movie.getMovieBox()){
+            movie.setMovieBox(0.0);
+        }else{
+            movie.setMovieBox(movie.getMovieBox()/10000);
+        }
+        model.addAttribute("movie",movie);
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String  a = sdf.format(movieItemService.selectMovieById(2).getMovieRelease());
+        String  a = sdf.format(movieItemService.selectMovieById(id).getMovieRelease());
         model.addAttribute("releaseDate",a);
         System.out.println("上映时间"+a);
-//        System.out.println("我在这儿!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//        System.out.println(movieItemService.selectMovieById(id).toString());
+        System.out.println("我在这儿!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("typeof:"+movie.getMovieBox());
+        System.out.println(movieItemService.selectMovieById(id).toString());
         return "movie_item";
     }
 }

@@ -4,12 +4,27 @@
   <resultMap id="BaseResultMap" type="com.william.film.pojo.Schedule">
     <id column="Schedule_Id" jdbcType="INTEGER" property="scheduleId" />
     <result column="Movie_Id" jdbcType="INTEGER" property="movieId" />
+    <result column="Theater_id" jdbcType="INTEGER" property="theaterId" />
     <result column="Hall_Id" jdbcType="INTEGER" property="hallId" />
-    <result column="Schedule_Price" jdbcType="INTEGER" property="schedulePrice" />
+    <result column="Broadcast_Type" jdbcType="VARCHAR" property="broadcastType" />
+    <result column="Schedule_Price" jdbcType="DOUBLE" property="schedulePrice" />
+    <result column="Schedule_Date" jdbcType="DATE" property="scheduleDate" />
     <result column="Schedule_Begin_Date_Time" jdbcType="TIMESTAMP" property="scheduleBeginDateTime" />
     <result column="Schedule_End_Date_Time" jdbcType="TIMESTAMP" property="scheduleEndDateTime" />
-    <result column="Schedule_Holiday" jdbcType="INTEGER" property="scheduleHoliday" />
   </resultMap>
+  <select id="showTodayMovieId" resultType="java.lang.Integer">
+    select distinct movie_Id from schedule where Schedule_Begin_Date_Time between #{dateStart,jdbcType=TIMESTAMP} and #{dateEnd,jdbcType=TIMESTAMP} and Theater_Id = #{theaterId,jdbcType=INTEGER};
+  </select>
+  <!--DATE一定要大写!!!Date会导致项目启动不了-->
+  <select id="showAllScheduleAfterToday" resultMap="BaseResultMap">
+    select * from schedule where Schedule_Begin_Date_Time > #{date,jdbcType=TIMESTAMP} ;
+  </select>
+  <select id="showDatesByHall" resultType="java.util.Date">
+    select DISTINCT Schedule_Date from schedule WHERE Movie_Id = #{movieId,jdbcType=INTEGER} AND Theater_Id = #{theaterId,jdbcType=INTEGER} AND Schedule_Date>= #{dateToday,jdbcType=DATE};
+  </select>
+  <select id="showScheduleByDateMovieTheater" resultMap="BaseResultMap">
+    select * from schedule where Schedule_Begin_Date_Time between #{dateStart,jdbcType=TIMESTAMP} and #{dateEnd,jdbcType=TIMESTAMP} and Movie_Id = #{movieId,jdbcType=INTEGER} and Theater_Id = #{theaterId,jdbcType=INTEGER};
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -69,8 +84,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    Schedule_Id, Movie_Id, Hall_Id, Schedule_Price, Schedule_Begin_Date_Time, Schedule_End_Date_Time, 
-    Schedule_Holiday
+    Schedule_Id, Movie_Id, Theater_id, Hall_Id, Broadcast_Type, Schedule_Price, Schedule_Date,
+    Schedule_Begin_Date_Time, Schedule_End_Date_Time
   </sql>
   <select id="selectByExample" parameterType="com.william.film.pojo.ScheduleExample" resultMap="BaseResultMap">
     select
@@ -87,7 +102,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from schedule
     where Schedule_Id = #{scheduleId,jdbcType=INTEGER}
@@ -103,12 +118,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.film.pojo.Schedule">
-    insert into schedule (Schedule_Id, Movie_Id, Hall_Id, 
-      Schedule_Price, Schedule_Begin_Date_Time, 
-      Schedule_End_Date_Time, Schedule_Holiday)
-    values (#{scheduleId,jdbcType=INTEGER}, #{movieId,jdbcType=INTEGER}, #{hallId,jdbcType=INTEGER}, 
-      #{schedulePrice,jdbcType=INTEGER}, #{scheduleBeginDateTime,jdbcType=TIMESTAMP}, 
-      #{scheduleEndDateTime,jdbcType=TIMESTAMP}, #{scheduleHoliday,jdbcType=INTEGER})
+    insert into schedule (Schedule_Id, Movie_Id, Theater_id,
+    Hall_Id, Broadcast_Type, Schedule_Price,
+    Schedule_Date, Schedule_Begin_Date_Time, Schedule_End_Date_Time
+    )
+    values (#{scheduleId,jdbcType=INTEGER}, #{movieId,jdbcType=INTEGER}, #{theaterId,jdbcType=INTEGER},
+    #{hallId,jdbcType=INTEGER}, #{broadcastType,jdbcType=VARCHAR}, #{schedulePrice,jdbcType=DOUBLE},
+    #{scheduleDate,jdbcType=DATE}, #{scheduleBeginDateTime,jdbcType=TIMESTAMP}, #{scheduleEndDateTime,jdbcType=TIMESTAMP}
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.william.film.pojo.Schedule">
     insert into schedule
@@ -119,20 +136,26 @@
       <if test="movieId != null">
         Movie_Id,
       </if>
+      <if test="theaterId != null">
+        Theater_id,
+      </if>
       <if test="hallId != null">
         Hall_Id,
       </if>
+      <if test="broadcastType != null">
+        Broadcast_Type,
+      </if>
       <if test="schedulePrice != null">
         Schedule_Price,
+      </if>
+      <if test="scheduleDate != null">
+        Schedule_Date,
       </if>
       <if test="scheduleBeginDateTime != null">
         Schedule_Begin_Date_Time,
       </if>
       <if test="scheduleEndDateTime != null">
         Schedule_End_Date_Time,
-      </if>
-      <if test="scheduleHoliday != null">
-        Schedule_Holiday,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -142,20 +165,26 @@
       <if test="movieId != null">
         #{movieId,jdbcType=INTEGER},
       </if>
+      <if test="theaterId != null">
+        #{theaterId,jdbcType=INTEGER},
+      </if>
       <if test="hallId != null">
         #{hallId,jdbcType=INTEGER},
       </if>
+      <if test="broadcastType != null">
+        #{broadcastType,jdbcType=VARCHAR},
+      </if>
       <if test="schedulePrice != null">
-        #{schedulePrice,jdbcType=INTEGER},
+        #{schedulePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="scheduleDate != null">
+        #{scheduleDate,jdbcType=DATE},
       </if>
       <if test="scheduleBeginDateTime != null">
         #{scheduleBeginDateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="scheduleEndDateTime != null">
         #{scheduleEndDateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="scheduleHoliday != null">
-        #{scheduleHoliday,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -174,20 +203,26 @@
       <if test="record.movieId != null">
         Movie_Id = #{record.movieId,jdbcType=INTEGER},
       </if>
+      <if test="record.theaterId != null">
+        Theater_id = #{record.theaterId,jdbcType=INTEGER},
+      </if>
       <if test="record.hallId != null">
         Hall_Id = #{record.hallId,jdbcType=INTEGER},
       </if>
+      <if test="record.broadcastType != null">
+        Broadcast_Type = #{record.broadcastType,jdbcType=VARCHAR},
+      </if>
       <if test="record.schedulePrice != null">
-        Schedule_Price = #{record.schedulePrice,jdbcType=INTEGER},
+        Schedule_Price = #{record.schedulePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.scheduleDate != null">
+        Schedule_Date = #{record.scheduleDate,jdbcType=DATE},
       </if>
       <if test="record.scheduleBeginDateTime != null">
         Schedule_Begin_Date_Time = #{record.scheduleBeginDateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.scheduleEndDateTime != null">
         Schedule_End_Date_Time = #{record.scheduleEndDateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.scheduleHoliday != null">
-        Schedule_Holiday = #{record.scheduleHoliday,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -197,12 +232,14 @@
   <update id="updateByExample" parameterType="map">
     update schedule
     set Schedule_Id = #{record.scheduleId,jdbcType=INTEGER},
-      Movie_Id = #{record.movieId,jdbcType=INTEGER},
-      Hall_Id = #{record.hallId,jdbcType=INTEGER},
-      Schedule_Price = #{record.schedulePrice,jdbcType=INTEGER},
-      Schedule_Begin_Date_Time = #{record.scheduleBeginDateTime,jdbcType=TIMESTAMP},
-      Schedule_End_Date_Time = #{record.scheduleEndDateTime,jdbcType=TIMESTAMP},
-      Schedule_Holiday = #{record.scheduleHoliday,jdbcType=INTEGER}
+    Movie_Id = #{record.movieId,jdbcType=INTEGER},
+    Theater_id = #{record.theaterId,jdbcType=INTEGER},
+    Hall_Id = #{record.hallId,jdbcType=INTEGER},
+    Broadcast_Type = #{record.broadcastType,jdbcType=VARCHAR},
+    Schedule_Price = #{record.schedulePrice,jdbcType=DOUBLE},
+    Schedule_Date = #{record.scheduleDate,jdbcType=DATE},
+    Schedule_Begin_Date_Time = #{record.scheduleBeginDateTime,jdbcType=TIMESTAMP},
+    Schedule_End_Date_Time = #{record.scheduleEndDateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,11 +250,20 @@
       <if test="movieId != null">
         Movie_Id = #{movieId,jdbcType=INTEGER},
       </if>
+      <if test="theaterId != null">
+        Theater_id = #{theaterId,jdbcType=INTEGER},
+      </if>
       <if test="hallId != null">
         Hall_Id = #{hallId,jdbcType=INTEGER},
       </if>
+      <if test="broadcastType != null">
+        Broadcast_Type = #{broadcastType,jdbcType=VARCHAR},
+      </if>
       <if test="schedulePrice != null">
-        Schedule_Price = #{schedulePrice,jdbcType=INTEGER},
+        Schedule_Price = #{schedulePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="scheduleDate != null">
+        Schedule_Date = #{scheduleDate,jdbcType=DATE},
       </if>
       <if test="scheduleBeginDateTime != null">
         Schedule_Begin_Date_Time = #{scheduleBeginDateTime,jdbcType=TIMESTAMP},
@@ -225,20 +271,19 @@
       <if test="scheduleEndDateTime != null">
         Schedule_End_Date_Time = #{scheduleEndDateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="scheduleHoliday != null">
-        Schedule_Holiday = #{scheduleHoliday,jdbcType=INTEGER},
-      </if>
     </set>
     where Schedule_Id = #{scheduleId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.william.film.pojo.Schedule">
     update schedule
     set Movie_Id = #{movieId,jdbcType=INTEGER},
+      Theater_id = #{theaterId,jdbcType=INTEGER},
       Hall_Id = #{hallId,jdbcType=INTEGER},
-      Schedule_Price = #{schedulePrice,jdbcType=INTEGER},
+      Broadcast_Type = #{broadcastType,jdbcType=VARCHAR},
+      Schedule_Price = #{schedulePrice,jdbcType=DOUBLE},
+      Schedule_Date = #{scheduleDate,jdbcType=DATE},
       Schedule_Begin_Date_Time = #{scheduleBeginDateTime,jdbcType=TIMESTAMP},
-      Schedule_End_Date_Time = #{scheduleEndDateTime,jdbcType=TIMESTAMP},
-      Schedule_Holiday = #{scheduleHoliday,jdbcType=INTEGER}
+      Schedule_End_Date_Time = #{scheduleEndDateTime,jdbcType=TIMESTAMP}
     where Schedule_Id = #{scheduleId,jdbcType=INTEGER}
   </update>
 </mapper>

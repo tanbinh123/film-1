@@ -18,46 +18,46 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
-public class theaterController {
+public class TheaterController {
     @Autowired
     MovieItemService movieItemService;
     @Autowired
     TheaterService theaterService;
+
     @RequestMapping("/theater")
-    public String toPage(@RequestParam(value = "movieId",required = false,defaultValue = "1")Integer a, Model model,String area,String brand)throws Exception{
+    public String toPage(@RequestParam(value = "movieId", required = false, defaultValue = "1") Integer a, Model model, String area, String brand) throws Exception {
 //        Movie movie = movieMapper.selectByPrimaryKey(a);
-        Movie movie =movieItemService.selectMovieById(a);
+        Movie movie = movieItemService.selectMovieById(a);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String releaseDate = sdf.format(movie.getMovieRelease());
         //banner所显示的电影的讯息
-        model.addAttribute("releaseDate",releaseDate);
-        model.addAttribute("movie",movie);
-        System.out.println("接收的值"+a);
+        model.addAttribute("releaseDate", releaseDate);
+        model.addAttribute("movie", movie);
+        System.out.println("接收的值" + a);
         //需要将地区名传入
         //添加影院
-        model.addAttribute("theaterBrand",theaterService.findBrandsByCityName("南京"));
+        model.addAttribute("theaterBrand", theaterService.findBrandsByCityName("南京"));
         //添加地区
-        model.addAttribute("area",theaterService.findAreasByCityName("南京"));
+        model.addAttribute("area", theaterService.findAreasByCityName("南京"));
 
 
         return "theater";
     }
 
     @RequestMapping("/getTheater")
-    @ResponseBody List<Theater> getTheater(String area, String brand){
-        System.out.println("area:"+area);
-        System.out.println("brand:"+brand);
-        if (area!=null){
+    @ResponseBody
+    List<Theater> getTheater(String area, String brand) {
+        System.out.println("area:" + area);
+        System.out.println("brand:" + brand);
+        if (area != null) {
             System.out.println("area不为null");
-        }else{
+        } else {
             System.out.println("area为null");
         }
-        for (Theater t:theaterService.selectTheaterByAreaBrand(area,brand)
-             ) {
+        for (Theater t : theaterService.selectTheaterByAreaBrand(area, brand)
+                ) {
             System.out.println(t.toString());
         }
-
-
-        return theaterService.selectTheaterByAreaBrand(area,brand);
+        return theaterService.selectTheaterByAreaBrand(area, brand);
     }
 }

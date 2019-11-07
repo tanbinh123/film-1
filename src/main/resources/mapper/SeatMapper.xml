@@ -2,13 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.william.film.mapper.SeatMapper">
   <resultMap id="BaseResultMap" type="com.william.film.pojo.Seat">
-    <id column="Seat_Col" jdbcType="INTEGER" property="seatCol" />
-    <id column="Seat_Row" jdbcType="INTEGER" property="seatRow" />
+    <id column="Seat_Id" jdbcType="INTEGER" property="seatId" />
+    <result column="Theater_id" jdbcType="INTEGER" property="theaterId" />
     <result column="Hall_Id" jdbcType="INTEGER" property="hallId" />
+    <result column="Seat_Row" jdbcType="INTEGER" property="seatRow" />
+    <result column="Seat_Col" jdbcType="INTEGER" property="seatCol" />
     <result column="Seat_Exist" jdbcType="INTEGER" property="seatExist" />
     <result column="Seat_State" jdbcType="INTEGER" property="seatState" />
     <result column="Seat_Level" jdbcType="INTEGER" property="seatLevel" />
   </resultMap>
+  <select id="selectSeatByTheaterAndHall" resultMap="BaseResultMap">
+    select * from seat where Theater_id = #{theaterId,jdbcType=INTEGER} and Hall_Id = #{hallId,jdbcType=INTEGER} order by Seat_Row,Seat_Col;
+  </select>
+  <select id="getRowNum" resultType="Integer">
+    select distinct Seat_Row from seat where Theater_id = #{theaterId,jdbcType=INTEGER} and Hall_Id =  #{hallId,jdbcType=INTEGER} order by Seat_Row;
+  </select>
+  <select id="selectRow" resultMap="BaseResultMap">
+    select * from seat where Theater_Id = #{theaterId,jdbcType=INTEGER} and Hall_Id = #{hallId,jdbcType=INTEGER} and Seat_Row = #{row,jdbcType=INTEGER} order by Seat_Col;
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -68,7 +79,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    Seat_Col, Seat_Row, Hall_Id, Seat_Exist, Seat_State, Seat_Level
+    Seat_Id, Theater_id, Hall_Id, Seat_Row, Seat_Col, Seat_Exist, Seat_State, Seat_Level
   </sql>
   <select id="selectByExample" parameterType="com.william.film.pojo.SeatExample" resultMap="BaseResultMap">
     select
@@ -84,17 +95,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="com.william.film.pojo.SeatKey" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from seat
-    where Seat_Col = #{seatCol,jdbcType=INTEGER}
-      and Seat_Row = #{seatRow,jdbcType=INTEGER}
+    where Seat_Id = #{seatId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.william.film.pojo.SeatKey">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from seat
-    where Seat_Col = #{seatCol,jdbcType=INTEGER}
-      and Seat_Row = #{seatRow,jdbcType=INTEGER}
+    where Seat_Id = #{seatId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.william.film.pojo.SeatExample">
     delete from seat
@@ -103,24 +112,30 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.william.film.pojo.Seat">
-    insert into seat (Seat_Col, Seat_Row, Hall_Id, 
-      Seat_Exist, Seat_State, Seat_Level
-      )
-    values (#{seatCol,jdbcType=INTEGER}, #{seatRow,jdbcType=INTEGER}, #{hallId,jdbcType=INTEGER}, 
-      #{seatExist,jdbcType=INTEGER}, #{seatState,jdbcType=INTEGER}, #{seatLevel,jdbcType=INTEGER}
-      )
+    insert into seat (Seat_Id, Theater_id, Hall_Id, 
+      Seat_Row, Seat_Col, Seat_Exist, 
+      Seat_State, Seat_Level)
+    values (#{seatId,jdbcType=INTEGER}, #{theaterId,jdbcType=INTEGER}, #{hallId,jdbcType=INTEGER}, 
+      #{seatRow,jdbcType=INTEGER}, #{seatCol,jdbcType=INTEGER}, #{seatExist,jdbcType=INTEGER}, 
+      #{seatState,jdbcType=INTEGER}, #{seatLevel,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.william.film.pojo.Seat">
     insert into seat
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="seatCol != null">
-        Seat_Col,
+      <if test="seatId != null">
+        Seat_Id,
+      </if>
+      <if test="theaterId != null">
+        Theater_id,
+      </if>
+      <if test="hallId != null">
+        Hall_Id,
       </if>
       <if test="seatRow != null">
         Seat_Row,
       </if>
-      <if test="hallId != null">
-        Hall_Id,
+      <if test="seatCol != null">
+        Seat_Col,
       </if>
       <if test="seatExist != null">
         Seat_Exist,
@@ -133,14 +148,20 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="seatCol != null">
-        #{seatCol,jdbcType=INTEGER},
+      <if test="seatId != null">
+        #{seatId,jdbcType=INTEGER},
+      </if>
+      <if test="theaterId != null">
+        #{theaterId,jdbcType=INTEGER},
+      </if>
+      <if test="hallId != null">
+        #{hallId,jdbcType=INTEGER},
       </if>
       <if test="seatRow != null">
         #{seatRow,jdbcType=INTEGER},
       </if>
-      <if test="hallId != null">
-        #{hallId,jdbcType=INTEGER},
+      <if test="seatCol != null">
+        #{seatCol,jdbcType=INTEGER},
       </if>
       <if test="seatExist != null">
         #{seatExist,jdbcType=INTEGER},
@@ -162,14 +183,20 @@
   <update id="updateByExampleSelective" parameterType="map">
     update seat
     <set>
-      <if test="record.seatCol != null">
-        Seat_Col = #{record.seatCol,jdbcType=INTEGER},
+      <if test="record.seatId != null">
+        Seat_Id = #{record.seatId,jdbcType=INTEGER},
+      </if>
+      <if test="record.theaterId != null">
+        Theater_id = #{record.theaterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.hallId != null">
+        Hall_Id = #{record.hallId,jdbcType=INTEGER},
       </if>
       <if test="record.seatRow != null">
         Seat_Row = #{record.seatRow,jdbcType=INTEGER},
       </if>
-      <if test="record.hallId != null">
-        Hall_Id = #{record.hallId,jdbcType=INTEGER},
+      <if test="record.seatCol != null">
+        Seat_Col = #{record.seatCol,jdbcType=INTEGER},
       </if>
       <if test="record.seatExist != null">
         Seat_Exist = #{record.seatExist,jdbcType=INTEGER},
@@ -187,9 +214,11 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update seat
-    set Seat_Col = #{record.seatCol,jdbcType=INTEGER},
-      Seat_Row = #{record.seatRow,jdbcType=INTEGER},
+    set Seat_Id = #{record.seatId,jdbcType=INTEGER},
+      Theater_id = #{record.theaterId,jdbcType=INTEGER},
       Hall_Id = #{record.hallId,jdbcType=INTEGER},
+      Seat_Row = #{record.seatRow,jdbcType=INTEGER},
+      Seat_Col = #{record.seatCol,jdbcType=INTEGER},
       Seat_Exist = #{record.seatExist,jdbcType=INTEGER},
       Seat_State = #{record.seatState,jdbcType=INTEGER},
       Seat_Level = #{record.seatLevel,jdbcType=INTEGER}
@@ -200,8 +229,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.william.film.pojo.Seat">
     update seat
     <set>
+      <if test="theaterId != null">
+        Theater_id = #{theaterId,jdbcType=INTEGER},
+      </if>
       <if test="hallId != null">
         Hall_Id = #{hallId,jdbcType=INTEGER},
+      </if>
+      <if test="seatRow != null">
+        Seat_Row = #{seatRow,jdbcType=INTEGER},
+      </if>
+      <if test="seatCol != null">
+        Seat_Col = #{seatCol,jdbcType=INTEGER},
       </if>
       <if test="seatExist != null">
         Seat_Exist = #{seatExist,jdbcType=INTEGER},
@@ -213,16 +251,17 @@
         Seat_Level = #{seatLevel,jdbcType=INTEGER},
       </if>
     </set>
-    where Seat_Col = #{seatCol,jdbcType=INTEGER}
-      and Seat_Row = #{seatRow,jdbcType=INTEGER}
+    where Seat_Id = #{seatId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.william.film.pojo.Seat">
     update seat
-    set Hall_Id = #{hallId,jdbcType=INTEGER},
+    set Theater_id = #{theaterId,jdbcType=INTEGER},
+      Hall_Id = #{hallId,jdbcType=INTEGER},
+      Seat_Row = #{seatRow,jdbcType=INTEGER},
+      Seat_Col = #{seatCol,jdbcType=INTEGER},
       Seat_Exist = #{seatExist,jdbcType=INTEGER},
       Seat_State = #{seatState,jdbcType=INTEGER},
       Seat_Level = #{seatLevel,jdbcType=INTEGER}
-    where Seat_Col = #{seatCol,jdbcType=INTEGER}
-      and Seat_Row = #{seatRow,jdbcType=INTEGER}
+    where Seat_Id = #{seatId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -3,9 +3,20 @@ package com.william.film.mapper;
 import com.william.film.pojo.Hall;
 import com.william.film.pojo.HallExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@Mapper
 public interface HallMapper {
+    /**
+     * 通过影厅id查出影厅名
+     * @param hallId
+     * @return
+     */
+    String selectHallNameById(Integer hallId);
     long countByExample(HallExample example);
 
     int deleteByExample(HallExample example);

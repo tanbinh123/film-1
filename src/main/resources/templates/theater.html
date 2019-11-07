@@ -110,7 +110,21 @@
                     <div class="movie-index">
                         <p class="movie-index-title">累计票房</p>
                         <div class="movie-index-content box">
-                            <span class="malgun-gothic"th:text="${movie.getMovieBox()/10000}"></span>
+                            <!--使用th:if做简单的逻辑判断-->
+                            <!--1 gt:     great than（大于）>-->
+                            <!--2 ge：    great equal（大于等于）>=-->
+                            <!--3 eq：    equal（等于）==-->
+                            <!--4 lt：    less than（小于）<-->
+                            <!--5 le：    less equal（小于等于）<=-->
+                            <!--6 ne：    not equal（不等于）!=-->
+                            <div style="display: inline"th:if="${movie.getMovieBox() ne '0.0'}" >
+                                <span class="malgun-gothic"th:text="${movie.getMovieBox()/10000}"></span>
+                            </div>
+                            <div style="display: inline"th:if="${movie.getMovieBox() eq '0.0'}" >
+                                <span class="malgun-gothic"th:text="0.0"></span>
+                            </div>
+                            <!--<span class="malgun-gothic"th:if="${movie.getMovieBox() eq '0.0'}"></span>-->
+                            <!--<span class="malgun-gothic"th:text="${movie.getMovieBox()/10000}"></span>-->
                             <span class="unit">万</span>
                         </div>
                     </div>
@@ -130,15 +144,16 @@
                 <li class="tags-line tags-line-border">
                     <div class="tags-title">影院:</div>
                     <ul class="tags theater">
-                        <li class="active" id="theaterAll"><a href="#" onclick="setTheaterEmpty()">全部</a></li>
-                        <li th:each="item,state:${theaterBrand}" th:id="'theater'+${item.getBrandId()}"><a href="#" th:text="${item.getBrandName()}" th:name="'theater'+${item.getBrandId()}" onclick="theaterClick(this)"></a></li>
+                        <li class="active" id="theaterAll"><a href="javascript:void(0);" onclick="setTheaterEmpty()">全部</a></li>
+                        <!--javascript:void(0);使得页面不跳转-->
+                        <li th:each="item,state:${theaterBrand}" th:id="'theater'+${item.getBrandId()}"><a href="javascript:void(0);" th:text="${item.getBrandName()}" th:name="'theater'+${item.getBrandId()}" onclick="theaterClick(this)"></a></li>
                     </ul>
                 </li>
                 <li class="tags-line tags-line-border">
                     <div class="tags-title">地区:</div>
                     <ul class="tags area">
-                        <li class="active" id="areaAll"><a href="#" onclick="setAreaEmpty()">全部</a></li>
-                        <li th:each="a,state:${area}" th:id="'area'+${a.getAreaId()}"><a href="#" th:text="${a.getAreaName()}" th:name="'area'+${a.getAreaId()}" onclick="areaClick(this)"></a></li>
+                        <li class="active" id="areaAll"><a href="javascript:void(0);" onclick="setAreaEmpty()">全部</a></li>
+                        <li th:each="a,state:${area}" th:id="'area'+${a.getAreaId()}"><a href="javascript:void(0);" th:text="${a.getAreaName()}" th:name="'area'+${a.getAreaId()}" onclick="areaClick(this)"></a></li>
                     </ul>
                 </li>
                 <!--特殊厅-->

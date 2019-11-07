@@ -164,6 +164,76 @@ public class HallExample {
             return (Criteria) this;
         }
 
+        public Criteria andHallNameIsNull() {
+            addCriterion("Hall_Name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameIsNotNull() {
+            addCriterion("Hall_Name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameEqualTo(String value) {
+            addCriterion("Hall_Name =", value, "hallName");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameNotEqualTo(String value) {
+            addCriterion("Hall_Name <>", value, "hallName");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameGreaterThan(String value) {
+            addCriterion("Hall_Name >", value, "hallName");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameGreaterThanOrEqualTo(String value) {
+            addCriterion("Hall_Name >=", value, "hallName");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameLessThan(String value) {
+            addCriterion("Hall_Name <", value, "hallName");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameLessThanOrEqualTo(String value) {
+            addCriterion("Hall_Name <=", value, "hallName");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameLike(String value) {
+            addCriterion("Hall_Name like", value, "hallName");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameNotLike(String value) {
+            addCriterion("Hall_Name not like", value, "hallName");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameIn(List<String> values) {
+            addCriterion("Hall_Name in", values, "hallName");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameNotIn(List<String> values) {
+            addCriterion("Hall_Name not in", values, "hallName");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameBetween(String value1, String value2) {
+            addCriterion("Hall_Name between", value1, value2, "hallName");
+            return (Criteria) this;
+        }
+
+        public Criteria andHallNameNotBetween(String value1, String value2) {
+            addCriterion("Hall_Name not between", value1, value2, "hallName");
+            return (Criteria) this;
+        }
+
         public Criteria andTheaterIdIsNull() {
             addCriterion("Theater_Id is null");
             return (Criteria) this;
