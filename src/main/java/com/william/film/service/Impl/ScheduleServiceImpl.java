@@ -25,4 +25,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         Schedule sc = scheduleMapper.selectByPrimaryKey(scheduleId);
         return new ScheduleWithHallName(sc,hallMapper.selectHallNameById(sc.getHallId()));
     }
+
+    @Override
+    public void allDaysAddOne() {
+        scheduleMapper.allDaysAddOne();
+    }
 }

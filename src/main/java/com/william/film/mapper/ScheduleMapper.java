@@ -7,8 +7,10 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import com.william.film.pojo.SeatArrangement;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -47,6 +49,12 @@ public interface ScheduleMapper {
      * @return
      */
     List<Schedule>showScheduleByDateMovieTheater(@Param("dateStart")Date dateStart,@Param("dateEnd")Date dateEnd,@Param("movieId")Integer movieId,@Param("theaterId")Integer theaterId);
+
+    /**
+     * 所有日期加一
+     */
+    void allDaysAddOne();
+
     long countByExample(ScheduleExample example);
 
     int deleteByExample(ScheduleExample example);

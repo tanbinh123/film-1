@@ -1,6 +1,7 @@
 package com.william.film.service;
 
 import com.william.film.pojo.Seat;
+import com.william.film.pojo.SeatArrangement;
 
 import java.util.List;
 
@@ -29,4 +30,13 @@ public interface SeatChooserService {
      * @return
      */
     List<Seat>getColByRow(Integer theaterId,Integer hallId,Integer row);
+
+    void insertSeatArrangement(int seatId,int scheduleId,int customerId,int seatState);
+
+    /**
+     * 通过 scheduleId找到被选/被锁定座位
+     * @param scheduleId
+     * @return
+     */
+    List<SeatArrangement>showSelectedSeats(Integer scheduleId);
 }

@@ -12,6 +12,9 @@
     <result column="Schedule_Begin_Date_Time" jdbcType="TIMESTAMP" property="scheduleBeginDateTime" />
     <result column="Schedule_End_Date_Time" jdbcType="TIMESTAMP" property="scheduleEndDateTime" />
   </resultMap>
+  <update id="allDaysAddOne">
+    update Schedule set Schedule_Date = DATE_ADD(Schedule_Date,INTERVAL 1 DAY) , Schedule_Begin_Date_time = DATE_ADD(Schedule_Begin_Date_time,INTERVAL 1 DAY) ,Schedule_End_Date_time = DATE_ADD(Schedule_End_Date_time,INTERVAL 1 DAY);
+  </update>
   <select id="showTodayMovieId" resultType="java.lang.Integer">
     select distinct movie_Id from schedule where Schedule_Begin_Date_Time between #{dateStart,jdbcType=TIMESTAMP} and #{dateEnd,jdbcType=TIMESTAMP} and Theater_Id = #{theaterId,jdbcType=INTEGER};
   </select>

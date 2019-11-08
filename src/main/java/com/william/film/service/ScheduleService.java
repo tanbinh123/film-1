@@ -17,4 +17,9 @@ public interface ScheduleService {
      * @return
      */
     public ScheduleWithHallName getScheduleWithName(Integer scheduleId);
+
+    /**
+     * 所有日期加一
+     */
+    public void allDaysAddOne();
 }

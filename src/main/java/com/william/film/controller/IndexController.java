@@ -78,4 +78,8 @@ public class IndexController {
         model.addAttribute("upComingEight",indexService.upComingEight());
         return "index";
     }
+    @RequestMapping("countDownTest")
+    public String countdown(){
+        return "CountDownTest";
+    }
 }

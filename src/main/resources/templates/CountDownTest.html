@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/CountDonwTest.css">
+    <script src="js/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <ul class="countdown">
+        <li>
+            <span class="days">00</span>
+            <p class="days_ref">天</p>
+        </li>
+        <li class="seperator">.</li>
+        <li>
+            <span class="hours">00</span>
+            <p class="hours_ref">时</p>
+        </li>
+        <li class="seperator">:</li>
+        <li>
+            <span class="minutes">00</span>
+            <p class="minutes_ref">分</p>
+        </li>
+        <li class="seperator">:</li>
+        <li>
+            <span class="seconds">00</span>
+            <p class="seconds_ref">秒</p>
+        </li>
+    </ul>
+</div>
+</body>
+<script type="text/javascript" src="js/jquery.downCount.js"></script>
+<script class="source" type="text/javascript">
+    $('.countdown').downCount({
+        date: '12/24/2019 23:00:00',
+        offset: +10
+    }, function () {
+        alert('倒计时结束!');
+    });
+</script>
+</html>

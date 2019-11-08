@@ -2,8 +2,7 @@
 //http://www.runoob.com/index.php?id=1&image=awesome.jpg
 // 调用 getQueryVariable("id") 返回 1
 // 调用 getQueryVariable("image") 返回 "awesome.jpg"
-function getQueryVariable(variable)
-{
+function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
     for (var i=0;i<vars.length;i++) {
@@ -13,8 +12,8 @@ function getQueryVariable(variable)
     return(false);
 }
 console.log('getQueryVariable(hallId):'+getQueryVariable('hallId'));
-var hallId = getQueryVariable('hallId')
-
+var hallId = getQueryVariable('hallId');
+var scheduleId = getQueryVariable('scheduleId');
 var domRow = document.querySelectorAll('.seats-wrapper .row');
 //遍历行数/添加座位
 for(var i = 0;i<domRow.length;i++){
@@ -44,6 +43,30 @@ for(var i = 0;i<domRow.length;i++){
         }
     })
 }
+//在这里查询出那些座位已经被选了/样式设置为sold
+$.ajax({
+    url:'/film/find_selected_seat',
+    method:'post',
+    data:'scheduleId='+scheduleId,
+    dataType:'json',
+    success:function (data) {
+        if (null!=data){
+            //空值处理
+            for(var i = 0;i<data.length;i++){
+                var arr = eval(data[i]);
+                var seatId = arr.seatId;
+                document.getElementById(seatId).className = 'seat sold';
+                //接触onclick事件绑定
+                document.getElementById(seatId).onclick = function () {};
+                console.log('seat selected data:'+data[i]);
+            }
+        }
+        console.log('添加已售座位成功!');
+    },
+    error:function () {
+        console.log('selected ajax fail');
+    }
+})
 
 function selectSeat(e) {
 
@@ -67,6 +90,7 @@ function selectSeat(e) {
         }
         //如果domSelectedNum=5就不行要跳出提示
         if(domSelectedNum.length==5){
+            document.getElementById('tips').textContent = '一次最多只能购买四张票';
             document.getElementById('warning').style.display = 'block';
             e.className = 'seat selectable';
         }
@@ -97,3 +121,52 @@ function dismissWarning() {
     document.getElementById('warning').style.display = 'none';
 }
 
+function submit() {
+    var seatIds = new Array();
+    var domSelectedNum = document.querySelectorAll('.seats-wrapper .row .selected');
+    if (domSelectedNum.length == 0){
+        document.getElementById('tips').textContent = '请先选择座位';
+        document.getElementById('warning').style.display = 'block';
+    }else{
+        for (var i = 0;i<domSelectedNum.length;i++){
+            var seatId = domSelectedNum[i].id;
+            var seatRow = domSelectedNum[i].getAttribute('data-row');
+            var seatCol = domSelectedNum[i].getAttribute('data-col');
+            seatIds.push(seatId)
+            console.log('-------------------------');
+            console.log('座位Id:'+seatId);
+            console.log('座位:'+seatRow+'行-'+seatCol+'座');
+            console.log('-------------------------');
+        }
+        console.log('seatIds:'+seatIds.toString());
+        //ajax将seatIds传到后台/并跳转
+        //ajax传数组data:{seatIds:seatIds
+        //ajax传复杂参数时:
+        /*
+            data:{
+                seatIds:seatIds,                    ---seatIds是Integer[]
+                scheduleId:scheduleId               ---scheduleId是Integer
+            },
+         */
+
+        $.ajax({
+            url:'/film/order_prepare',
+            method:'post',
+            dataType:'json',
+            data:{
+                seatIds:seatIds,
+                scheduleId:scheduleId
+            },
+            async:false,
+            traditional: true,
+            success:function (data) {
+                console.log('ajax success')
+                // window.location.reload();
+            },
+            error:function () {
+                console.log("ajax fail");
+                // window.location.reload();
+            }
+        })
+    }
+}
