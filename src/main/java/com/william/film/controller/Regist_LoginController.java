@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class Regist_LoginController {
 //    private LoginServiceImpl loginService;
@@ -64,6 +67,15 @@ public class Regist_LoginController {
     public String insertTest(Customer customer)throws Exception{
         registerService.Register(customer);
         return "regist";
+
+    }
+    @RequestMapping("/getId")
+    @ResponseBody
+    public int getId(String customerName, HttpServletResponse response)throws Exception{
+        Integer customerId =loginService.getId(customerName);
+        Cookie cookie = new Cookie("customerId",customerId.toString());
+        response.addCookie(cookie);
+        return customerId;
 
     }
 }

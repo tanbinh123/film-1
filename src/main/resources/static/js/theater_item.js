@@ -140,7 +140,7 @@ function showSchedule() {
                                     if(flag%2==0){
                                         domClass = '';
                                     }else{
-                                        domClass = '';
+                                        domClass = 'even';
                                     }
                                     document.getElementById(tId).innerHTML +=
                                         '                        <tr class="'+domClass+'">\n' +

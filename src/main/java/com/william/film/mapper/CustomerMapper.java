@@ -24,6 +24,8 @@ public interface CustomerMapper {
 //    int insertCustomer(Customer customer);
     @Select("select Customer_Name from customer where Customer_Name = #{customerName}")
     String selectNameByName(String customerName);
+    @Select("select Customer_Id from customer where Customer_Name = #{customerName}")
+    int selectIdByName(String customerName);
     long countByExample(CustomerExample example);
 
     int deleteByExample(CustomerExample example);

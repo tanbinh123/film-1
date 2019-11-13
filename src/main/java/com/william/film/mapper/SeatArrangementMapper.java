@@ -17,6 +17,14 @@ public interface SeatArrangementMapper {
      * @return
      */
     int[] selectSeatIdBySchedule(Integer scheduleId);
+
+    /**
+     * 查询历史订单
+     * @param customerId
+     * @return
+     */
+    List<SeatArrangement>getSeatArrangementById(Integer customerId);
+
     long countByExample(SeatArrangementExample example);
 
     List<SeatArrangement> selectSeatStateLowerThanTwo(Integer scheduleId);

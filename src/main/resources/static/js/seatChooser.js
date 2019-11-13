@@ -149,24 +149,48 @@ function submit() {
             },
          */
 
-        $.ajax({
-            url:'/film/order_prepare',
-            method:'post',
-            dataType:'json',
-            data:{
-                seatIds:seatIds,
-                scheduleId:scheduleId
-            },
-            async:false,
-            traditional: true,
-            success:function (data) {
-                console.log('ajax success')
-                // window.location.reload();
-            },
-            error:function () {
-                console.log("ajax fail");
-                // window.location.reload();
+        //用户id存在时才传订单,无用户id则转到登录页面
+        if (null!=getCookie('customerId')&&''!=getCookie('customerId')){
+            $.ajax({
+                url:'/film/order_prepare',
+                method:'post',
+                dataType:'json',
+                data:{
+                    seatIds:seatIds,
+                    scheduleId:scheduleId
+                },
+                async:false,
+                traditional: true,
+                success:function (data) {
+                    console.log('ajax success')
+                    // window.location.reload();
+                },
+                error:function () {
+                    console.log("ajax fail");
+                    // window.location.reload();
+                }
+            })
+        }else{
+            document.getElementById('tips').textContent = '请先登录!';
+            document.getElementById('warning').style.display = 'block'
+            document.getElementById('warning-btn').onclick = function () {
+                window.location.href = '/film/login';
             }
-        })
+        }
+
     }
 }
+function getCookie(name){
+    var strcookie = document.cookie;//获取cookie字符串
+    var arrcookie = strcookie.split("; ");//分割
+    //遍历匹配
+    for ( var i = 0; i < arrcookie.length; i++) {
+        var arr = arrcookie[i].split("=");
+        if (arr[0] == name){
+            return arr[1];
+        }
+    }
+    return "";
+}
+
+console.log("cookies中的CustomerId:"+getCookie('customerId'));

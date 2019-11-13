@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>狗眼电影</title>
+    <link rel="stylesheet" href="css/head.css">
+    <link rel="stylesheet" href="css/body.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        // $(function () { $("appdownload").hover(
+        //     function () {
+        //         document.getElementById('iphone-icon').removeAttribute('display');
+        //     }
+        //     )
+        // })
+        function app_download_in() {
+            document.getElementById('download-icon').style.display='inline-block';
+            document.getElementById('app-download').style.borderLeft="1 px solid transparent";
+            document.getElementById('app-download').style.borderRight="1 px solid transparent";
+        }
+        function app_download_out() {
+            document.getElementById('download-icon').style.display='none';
+        }
+
+    </script>
+</head>
+<body>
+<div class="header">
+    <div class="header-inner">
+        <!--图片的background-image没写,需要后期插入-->
+        <a href="index" class="logo"></a>
+        <!--选择城市-->
+        <div class="city-container"></div>
+        <!--各页面-->
+        <div class="nav">
+            <ul class="nav-bar">
+                <li><a href="index" class="navbar-brand active">首页</a></li>
+                <li><a href="javascript:void(0);" class="navbar-brand">电影</a></li>
+                <li><a href="theater" class="navbar-brand">影院</a></li>
+                <li><a href="javascript:void(0);" class="navbar-brand">榜单</a></li>
+                <li><a href="javascript:void(0);" class="navbar-brand">热点</a></li>
+                <li><a href="javascript:void(0);" class="navbar-brand">商城</a></li>
+
+            </ul>
+        </div>
+
+
+        <!--app下载(下拉框)-->
+        <div class="app-download" id="app-download" onmouseover="app_download_in()" onmouseout="app_download_out()">
+            <a href="#" target="_blank">
+                <span class="iphone-icon" id="iphone-icon" ></span>
+                <span class="apptext">APP下载</span>
+                <span class="caret"></span>
+                <div class="download-icon" id="download-icon">
+                    <p class="down-title">扫码下载APP</p>
+                    <p class="down-content">选座更优惠</p>
+                </div>
+            </a>
+        </div>
+        <!--搜索框-->
+        <form action="" class="search-form">
+            <input type="text" placeholder="查询电影,影院" maxlength="32" autocomplete="off" class="search" >
+            <!--input中valye=""可以去除默认提交文字-->
+            <input type="submit" class="submit" value="">
+        </form>
+        <!--用户信息-->
+        <div class="personal-detail">
+            <div class="user-avatar">
+                <a href="/film/login">
+                    <img id="customer_img" src="/film/img/index/user-default.png">
+                    <span class="caret"></span>
+                    <ul class="user-menu">
+                        <li id="user-menu">
+                            <!--有用户的时候显示历史订单,每用户的时候显示登录-->
+                            <a href="/film/login">用户登录</a>
+
+                        </li>
+                    </ul>
+                </a>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+<div class="container"></div>
+<div class="footer">
+    <span class="contect-us">Copyright © 2019.  All rights reserved By William Wang. </span>
+</div>
+</body>
+</html>

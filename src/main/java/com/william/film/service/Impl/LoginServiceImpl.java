@@ -26,4 +26,9 @@ public class LoginServiceImpl implements LoginService {
         }
         return false;
     }
+
+    @Override
+    public int getId(String customerName) {
+        return customerMapper.selectIdByName(customerName);
+    }
 }

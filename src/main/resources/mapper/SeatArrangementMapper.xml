@@ -8,6 +8,9 @@
     <result column="Customer_Id" jdbcType="INTEGER" property="customerId" />
     <result column="Seat_State" jdbcType="INTEGER" property="seatState" />
   </resultMap>
+  <select id="getSeatArrangementById" resultMap="BaseResultMap">
+    select * from seat_arrangement where Customer_Id = #{customerId,jdbcType=INTEGER};
+  </select>
   <!--在 XML 中，一些字符拥有特殊的意义-->
   <!--如果您把字符 "<" 放在 XML 元素中，会发生错误，这是因为解析器会把它当作新元素的开始-->
   <!--为了避免这个错误，用实体引用(&lt;)来代替 "<" 字符-->

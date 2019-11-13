@@ -1,5 +1,6 @@
 package com.william.film.service;
 
+import com.william.film.pojo.Customer;
 import com.william.film.pojo.Movie;
 
 import java.util.List;
@@ -28,4 +29,11 @@ public interface IndexService {
      * @return
      */
     List<Movie>exceptRankTen();
+
+    /**
+     * 通过用户ID获得用户对象
+     * @param customerId
+     * @return
+     */
+    Customer getCustomerById(Integer customerId);
 }

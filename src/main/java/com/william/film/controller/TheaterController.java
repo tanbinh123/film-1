@@ -39,8 +39,6 @@ public class TheaterController {
         model.addAttribute("theaterBrand", theaterService.findBrandsByCityName("南京"));
         //添加地区
         model.addAttribute("area", theaterService.findAreasByCityName("南京"));
-
-
         return "theater";
     }
 

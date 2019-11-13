@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
@@ -53,7 +54,7 @@ public class SeatChooserController {
 //        System.out.println("succeed insert");
     }
     @RequestMapping("/seat_chooser")
-    public String chooseSeat(Integer scheduleId,Integer hallId,Model model)throws Exception{
+    public String chooseSeat(Integer scheduleId,Integer hallId,Model model,HttpServletRequest request)throws Exception{
         ScheduleWithHallName schedule = scheduleService.getScheduleWithName(scheduleId);
 
         //根据scheddule查schedule
@@ -71,6 +72,16 @@ public class SeatChooserController {
         model.addAttribute("rowIndex",seatChooserService.getSeatNum(theaterId,hallId));
         model.addAttribute("movie", movieItemService.selectMovieById(schedule.getMovieId()));
 //        model.addAttribute("seatList",seatChooserService.getSeatList(theaterId,hallId));
+        //取出用户(如果存在)
+//        HttpSession session = request.getSession();
+//        model.addAttribute("customerId",session.getAttribute("customerId"));
+//        System.out.println("seatChooser中的Session:"+session.getAttribute("customerId"));
+//        Cookie[]cookies =request.getCookies();
+//        if (null!=cookies){
+//            for (Cookie c :cookies) {
+//
+//            }
+//        }
         return "seatChooser";
     }
     @RequestMapping("get_row_seat")
@@ -87,7 +98,17 @@ public class SeatChooserController {
     //使用synchronized关键字,保证订票线程安全
     @ResponseBody
     synchronized void payPage(Integer[]seatIds, Integer scheduleId, HttpServletRequest request)throws Exception{
+
         int customerId = 1;
+        //从cookies中获取customerId
+        Cookie[]cookies = request.getCookies();
+        if(cookies != null){
+            for(Cookie cookie : cookies) {
+                if(cookie.getName().equals("customerId")) {
+                    customerId =Integer.parseInt(cookie.getValue());
+                }
+            }
+        }
         int seatState = 0;
         Date dateTime = new Date();
         for (Integer i:seatIds) {

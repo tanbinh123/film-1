@@ -1,13 +1,21 @@
 package com.william.film.controller;
 
+import com.sun.deploy.net.HttpResponse;
+import com.william.film.pojo.Customer;
 import com.william.film.pojo.Movie;
 import com.william.film.service.Impl.IndexServiceImpl;
 import com.william.film.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpCookie;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +25,7 @@ public class IndexController {
     @Autowired
     IndexServiceImpl indexService;
     @RequestMapping("index")
-    public String index(Model model)throws Exception{
+    public String index(Model model, Integer customerId)throws Exception{
         if(null!=indexService.nowShowingEight()){
             System.out.println("not null");
             System.out.println(indexService.nowShowingEight().toString());
@@ -76,10 +84,25 @@ public class IndexController {
         model.addAttribute("fourToTen",oneToTen);
         model.addAttribute("movie8",indexService.nowShowingEight());
         model.addAttribute("upComingEight",indexService.upComingEight());
+
+        //将用户存入Session用户账号
+//        HttpSession session = request.getSession();
+//        if(null!=customerId){
+//            session.setAttribute("customerId",customerId);
+//        }else {
+//            session.setAttribute("customerId",null);
+//        }
+//        System.out.println("session中的CustomerID:"+session.getAttribute("customerId"));
+
         return "index";
     }
     @RequestMapping("countDownTest")
     public String countdown(){
         return "CountDownTest";
+    }
+    @RequestMapping("get_customer")
+    @ResponseBody
+    public Customer getCustomer(Integer customerId)throws Exception{
+        return indexService.getCustomerById(customerId);
     }
 }

@@ -15,10 +15,6 @@ import java.text.SimpleDateFormat;
 public class MovieItemController {
     @Autowired
     MovieItemService movieItemService;
-//    @RequestMapping("")
-//    public String getAItem() throws Exception{
-//        return "movie_item";
-//    }
     @RequestMapping("/{movieID}")
     public String movie_item(@PathVariable("movieID")Integer id, Model model)throws Exception{
         Movie movie = movieItemService.selectMovieById(id);

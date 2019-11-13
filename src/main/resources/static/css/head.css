@@ -198,7 +198,7 @@ ul{
     border-radius: 50%;
     cursor: pointer;
 }
-.header .user-avater .caret{
+.header .user-avatar .caret{
     position: absolute;
     top: 39px;
     right: -15px;
@@ -213,10 +213,41 @@ ul{
     -webkit-transition: all .2s ease;
     transition: all .2s ease;
 }
-.header .user-menu{
+.header .personal-detail .user-avatar {
+    display: block;
+    border: 1px solid transparent;
+    border-top: none;
+    border-bottom: none;
+    padding: 0 10px;
+    width: 56px;
+    height: 100%;
+}
+.header .personal-detail .user-avatar:hover:after {
+    content: " ";
+    position: absolute;
+    height: 10px;
+    bottom: -1px;
+    left: -20px;
+    right: 1px;
+    width: 110px;
+    background-color: #fff;
+    /*border: 1px solid #0f0f0f;*/
+}
+.header .personal-detail .user-menu li>a {
+    color: #999;
+     display: block;
+     word-break: keep-all;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+}
+.header .personal-detail .user-avatar:hover .user-menu {
+    display: block;
+}
+.header .personal-detail .user-menu{
     display: none;
     position: absolute;
-    right: 0;
+    right: -34px;
     top: 80px;
     border: 1px solid #d8d8d8;
     background-color: #fff;
@@ -226,10 +257,10 @@ ul{
     padding: 15px 26px 5px;
     text-align: center;
 }
-.header .user-menu li{
+.header .personal-detail .user-menu li{
     margin-bottom: 6px;
 }
-.header .user-menu li>a{
+.header .personal-detail .user-menu li>a{
     color: #999;
     display: block;
     word-break: keep-all;

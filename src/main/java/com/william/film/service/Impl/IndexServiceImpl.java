@@ -1,6 +1,8 @@
 package com.william.film.service.Impl;
 
+import com.william.film.mapper.CustomerMapper;
 import com.william.film.mapper.MovieMapper;
+import com.william.film.pojo.Customer;
 import com.william.film.pojo.Movie;
 import com.william.film.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,8 @@ public class IndexServiceImpl implements IndexService {
     @Autowired
     MovieMapper movieMapper;
 
-
+    @Autowired
+    CustomerMapper customerMapper;
 
     @Override
     public List<Movie> nowShowingEight() {
@@ -33,5 +36,10 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public List<Movie> exceptRankTen() {
         return movieMapper.selectByExceptx10(new Date());
+    }
+
+    @Override
+    public Customer getCustomerById(Integer customerId) {
+        return customerMapper.selectByPrimaryKey(customerId);
     }
 }

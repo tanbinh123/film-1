@@ -6,7 +6,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Bootstrap Flat Registration Form Template</title>
+	<title>狗眼登录页面</title>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
@@ -34,7 +34,6 @@
 		function Pwdcheck(){
             var customerName = document.getElementById("Name").value;
             var customerPwd = document.getElementById("password").value;
-            console.log("hahahahahaha");
             console.log(customerName);
             console.log(customerPwd);
             $.ajax({
@@ -45,7 +44,23 @@
 				    //判断后台返回是成功还是失败
 					if(data){
                         alert("登录成功!")
-						window.location.href='/film/index'
+						$.ajax({
+							type:'post',
+							url:'getId',
+							data:'customerName='+customerName,
+							dataType:'json',
+							success:function (data) {
+                                // window.location.href='/film/index?customerId='+data.toString();
+								setCookie('customerId',data.toString());
+								if(getQueryVariable('flag')==1){
+								    window.location.href = '/film/index'
+								}else{
+                                    window.history.back();
+								}
+
+                            }
+						})
+
 					}else{
                         alert("登录失败,账号或者密码错误!")
 					}
@@ -61,45 +76,26 @@
 				}
 			});
 		}
+        function setCookie(name,value)
+        {
+            var Days = 30;
+            var exp = new Date();
+            exp.setTime(exp.getTime() + Days*24*60*60*1000);
+            document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+        }
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+            }
+            return(false);
+        }
 	</script>
 </head>
 
 <body>
-
-<!-- Top menu -->
-<nav class="navbar navbar-inverse navbar-no-bg" role="navigation">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="index.html">Bootstrap Flat Registration Form Template</a>
-		</div>
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="top-navbar-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-							<span class="li-text">
-								Put some text or
-							</span>
-					<a href="#"><strong>links</strong></a>
-					<span class="li-text">
-								here, or some icons:
-							</span>
-					<span class="li-social">
-								<a href="#"><i class="fa fa-facebook"></i></a>
-								<a href="#"><i class="fa fa-twitter"></i></a>
-								<a href="#"><i class="fa fa-envelope"></i></a>
-								<a href="#"><i class="fa fa-skype"></i></a>
-							</span>
-				</li>
-			</ul>
-		</div>
-	</div>
-</nav>
 
 <!-- Top content -->
 <div class="top-content">
@@ -108,7 +104,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-7 text">
-					<h1><strong>GouYan's Film</strong> <br>Please Regist Here</h1>
+					<h1><strong>GouYan's Film</strong> Please login Here</h1>
 					<div class="description">
 						<p>
 							我们期望给与您最极致的观影体验<br>
@@ -145,7 +141,7 @@
 								<span id="span_password" class="" aria-hidden="true"></span>
 							</div>
 							<!--当button的type为button时会关闭自动提交功能-->
-							<button type="button" class="btn" onclick="Pwdcheck()">Regist Now</button>
+							<button type="button" class="btn" onclick="Pwdcheck()">Login Now</button>
 						</form>
 					</div>
 				</div>

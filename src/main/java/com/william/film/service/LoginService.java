@@ -9,4 +9,11 @@ public interface LoginService {
      * @return
      */
     boolean checkLogin(Customer customer);
+
+    /**
+     * 通过姓名获取Id
+     * @param customerName
+     * @return
+     */
+    int getId(String customerName);
 }
